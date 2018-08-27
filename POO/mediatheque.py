@@ -24,3 +24,10 @@
 ##Y- la liste des mots clés (sans doublon) emprunté par X --> enjeu sociétaux
 ##DY- (bonus) le nombre max de livres empruntés en même temps par quelqu'un
 ##Y- fiche identité usager (3 listes)
+
+def changer_nom(liste_usagers,id_usager,nv_nom):
+    for i in range(liste_usagers):
+        if liste_usagers[i][0] == id_usager:
+            liste_usagers[i][1] =  nv_nom
+
+            
