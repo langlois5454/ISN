@@ -59,6 +59,15 @@ def lister_livres_sur_mot_cle(livres,mot_cle):
     """
     return [l[0] for l in livres if mot_cle in l[3]]
 
+def posterieur(d1,d2):
+    """
+    renvoie True si la date d2 (sous la forme "DD/MM/YYYY")
+    est postérieure (ou égale) à la date d1
+    """
+    da1 = datetime.strptime(d1, '%d/%m/%Y')
+    da2 = datetime.strptime(d2, '%d/%m/%Y')
+    return d2 >= d1
+
 def livre_plus_recemment_rendu(livres,liste_usagers,id_usager):
     usager = None
     for u in liste_usagers:
@@ -94,4 +103,7 @@ print(lister_usagers_majeurs(usagers_test))
 
 print(lister_livres_sur_mot_cle(livres_test,"Policier"))
 
+print(livre_plus_recemment_rendu(livres_test,usagers_test,1))
 
+
+      
