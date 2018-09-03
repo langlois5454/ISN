@@ -26,11 +26,13 @@
 ##Y- fiche identité usager (3 listes)
 
 
-def changer_nom(liste_usagers,id_usager,nv_nom):
-    for i in range(liste_usagers):
+def changer_nom_usager(liste_usagers,id_usager,nv_nom):
+    """
+    change le nom de l'usage d'id id_usager en nv_nom
+    """
+    for i in range(len(liste_usagers)):
         if liste_usagers[i][0] == id_usager:
             liste_usagers[i][1] =  nv_nom
-
 
 			
 			
@@ -42,5 +44,8 @@ usagers_test = [[1,"Nonyme","Alphonse","01/01/2000",[1,2]],[2,"Camion","Bo","18/
 emprunts_test = [[1,"12/07/2018","12/08/2018","10/08/2018"],[2,"01/09/2018","01/11/2018",None],[3,"01/09/2018","01/11/2018","01/10/2018"]]
 livres_test = [[1,"Nana","Zola Emile",["Drame","Classique","Troisième Empire"]],[2,"La parfum de la dame en noir","Leroux Gaston",["Policier","Rouletabille"]],[3,"Le chien de Baskerville","Doyle Conan",["Policier","Sherlock Holmes"]]]
 
+print(usagers_test)
+changer_nom_usager(usagers_test,2,"Bine")
+print(usagers_test)
 
             
