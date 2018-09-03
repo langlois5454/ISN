@@ -1,4 +1,4 @@
-
+# coding: utf8
 
 ##liste d'usagers
 ##id, nom, prénom, date naissance, liste des emprunts
@@ -52,7 +52,12 @@ def lister_usagers_majeurs(usagers):
     """
     return [u[0] for u in usagers if majeur(u)]
         
-			
+def lister_livres_sur_mot_cle(livres,mot_cle):
+    """
+    retourne la liste des identifiants des livres
+    associés au mot-clé mot_cle
+    """
+    return [l[0] for l in livres if mot_cle in l[3]]
 
 
 ## main
@@ -62,9 +67,12 @@ emprunts_test = [[1,"12/07/2018","12/08/2018","10/08/2018"],[2,"01/09/2018","01/
 livres_test = [[1,"Nana","Zola Emile",["Drame","Classique","Troisième Empire"]],[2,"La parfum de la dame en noir","Leroux Gaston",["Policier","Rouletabille"]],[3,"Le chien de Baskerville","Doyle Conan",["Policier","Sherlock Holmes"]]]
 
 print(usagers_test)
+
 changer_nom_usager(usagers_test,2,"Bine")
 print(usagers_test)
 
-majeur(usagers_test[0])            
-
 print(lister_usagers_majeurs(usagers_test))
+
+print(lister_livres_sur_mot_cle(livres_test,"Policier"))
+
+
