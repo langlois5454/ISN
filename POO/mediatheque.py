@@ -25,6 +25,7 @@
 ##DY- (bonus) le nombre max de livres empruntés en même temps par quelqu'un
 ##Y- fiche identité usager (3 listes)
 
+from datetime import datetime
 
 def changer_nom_usager(liste_usagers,id_usager,nv_nom):
     """
@@ -34,13 +35,29 @@ def changer_nom_usager(liste_usagers,id_usager,nv_nom):
         if liste_usagers[i][0] == id_usager:
             liste_usagers[i][1] =  nv_nom
 
-			
+def majeur(usager):
+    """
+    renvoie True si un usager est majeur, False, sinon
+    """
+    date_naissance = datetime.strptime(usager[3], '%d/%m/%Y')
+    date_majeur = datetime(date_naissance.year+18,date_naissance.month,date_naissance.day)
+    aujourdhui = datetime.now()
+    duree = aujourdhui-date_majeur
+    return duree.days >= 0
+
+def lister_usagers_majeurs(usagers):
+    """
+    retourne la liste des identifiants des usagers
+    majeurs
+    """
+    return [u[0] for u in usagers if majeur(u)]
+        
 			
 
 
 ## main
 
-usagers_test = [[1,"Nonyme","Alphonse","01/01/2000",[1,2]],[2,"Camion","Bo","18/03/1954",[3]]]
+usagers_test = [[1,"Nonyme","Alphonse","01/01/2003",[1,2]],[2,"Camion","Bo","18/03/1954",[3]]]
 emprunts_test = [[1,"12/07/2018","12/08/2018","10/08/2018"],[2,"01/09/2018","01/11/2018",None],[3,"01/09/2018","01/11/2018","01/10/2018"]]
 livres_test = [[1,"Nana","Zola Emile",["Drame","Classique","Troisième Empire"]],[2,"La parfum de la dame en noir","Leroux Gaston",["Policier","Rouletabille"]],[3,"Le chien de Baskerville","Doyle Conan",["Policier","Sherlock Holmes"]]]
 
@@ -48,4 +65,6 @@ print(usagers_test)
 changer_nom_usager(usagers_test,2,"Bine")
 print(usagers_test)
 
-            
+majeur(usagers_test[0])            
+
+print(lister_usagers_majeurs(usagers_test))
