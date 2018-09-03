@@ -3,7 +3,7 @@
 ##liste d'usagers
 ##id, nom, prénom, date naissance, liste des emprunts
 ##
-##liste des emprunts = (id_livre,debut,fin_attendue,fin_reelle = None)*
+##liste des emprunts = (id_emprunt,id_livre,debut,fin_attendue,fin_reelle = None)*
 ##
 ##
 ##livres
@@ -59,6 +59,25 @@ def lister_livres_sur_mot_cle(livres,mot_cle):
     """
     return [l[0] for l in livres if mot_cle in l[3]]
 
+def livre_plus_recemment_rendu(livres,liste_usagers,id_usager):
+    usager = None
+    for u in liste_usagers:
+        if u[0] == id_usager:
+            usager = u
+    liste_emprunts = u[4]
+    ##(id_livre,debut,fin_attendue,fin_reelle = None)
+    dernier_emprunt_rendu = None
+    for e in liste_emprunts:
+        if e[-1] != None:
+            if dernier_emprunt_rendu == None:
+                dernier_emprunt_rendu = e
+            else:
+                if date_posterieure(dernier_emprunt_rendu[-1],e[-1]):
+                    dernier_emprunt_rendu = e
+    return e[1]             
+                
+                
+    
 
 ## main
 
