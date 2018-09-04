@@ -95,8 +95,22 @@ def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
     else:
         return dernier_emprunt_rendu[1]             
                 
-                
-    
+
+## liste des personnes ayant emprunté le livre de titre X               
+def liste_usagers_ayant_emprunte_livre_titre_X(usagers,livres,emprunts,titre):
+        ## recherche du livre
+        id_livre = [l[0] for l in livres if l[1] == titre][0]
+        ## recherche des emprunts
+        emps = [e[0] for e in emprunts if e[1] == id_livre]
+        ## recherche des usagers
+        usgs = []
+        for u in usagers:
+            emprunts_u = u[4]
+            for e in emprunts_u:
+                if e in emps:
+                    usgs.append(u[0])
+        return list(set(usgs)) ## pour supprimer les doublons
+            
 
 ## main
 
@@ -115,6 +129,6 @@ print(lister_livres_sur_mot_cle(livres_test,"Policier"))
 
 print(livre_plus_recemment_rendu(emprunts_test,usagers_test,1))
 
-
+print(liste_usagers_ayant_emprunte_livre_titre_X(usagers_test,livres_test,emprunts_test,"Le chien de Baskerville"))
 
       
