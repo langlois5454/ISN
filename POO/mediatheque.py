@@ -3,7 +3,7 @@
 ##liste d'usagers
 ##id, nom, prénom, date naissance, liste des emprunts
 ##
-##liste des emprunts = (id_emprunt,id_livre,debut,fin_attendue,fin_reelle = None)*
+##liste des emprunts = [id_emprunt,id_livre,debut,fin_attendue,fin_reelle = None]*
 ##
 ##
 ##livres
@@ -69,6 +69,9 @@ def date_posterieure(d1,d2):
     return da2 >= da1
 
 def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
+    """
+    retourne l'id du livre le plus récemment rendu par l'usager d'id id_usager
+    """
     usager = None
     for u in liste_usagers:
         if u[0] == id_usager:
@@ -98,18 +101,21 @@ def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
 
 ## liste des personnes ayant emprunté le livre de titre X               
 def liste_usagers_ayant_emprunte_livre_titre_X(usagers,livres,emprunts,titre):
-        ## recherche du livre
-        id_livre = [l[0] for l in livres if l[1] == titre][0]
-        ## recherche des emprunts
-        emps = [e[0] for e in emprunts if e[1] == id_livre]
-        ## recherche des usagers
-        usgs = []
-        for u in usagers:
-            emprunts_u = u[4]
-            for e in emprunts_u:
-                if e in emps:
-                    usgs.append(u[0])
-        return list(set(usgs)) ## pour supprimer les doublons
+    """
+    retourne la liste des id des usagers ayany emprunté le livre de titre 'titre'
+    """
+    ## recherche du livre
+    id_livre = [l[0] for l in livres if l[1] == titre][0]
+    ## recherche des emprunts
+    emps = [e[0] for e in emprunts if e[1] == id_livre]
+    ## recherche des usagers
+    usgs = []
+    for u in usagers:
+        emprunts_u = u[4]
+        for e in emprunts_u:
+            if e in emps:
+                usgs.append(u[0])
+    return list(set(usgs)) ## pour supprimer les doublons
             
 
 ## main

@@ -1,0 +1,102 @@
+\documentclass[10pt,a4paper,onecolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[left=2.5cm,right=2.5cm,top=2cm,bottom=2cm]{geometry}
+
+\renewcommand{\FrenchLabelItem}{\textbullet}
+
+\begin{document}
+
+\title{Système d'information~: bibliothèque}
+
+\author{Langlois David, david.langlois@univ-lorraine.fr}
+
+\maketitle
+
+"Le système d'information (SI) est un ensemble organisé de ressources qui permet de collecter, stocker, traiter et distribuer de l'information" (source~: wikipedia).
+
+Cette activité de programmation va consister à programmer des fonctions de manipulation des données d'une bibliothèque. Le sujet propose une modélisation de l'information sous la forme de listes de listes qu'il faudra manipuler.
+
+\section{Objectifs pédagogiques}
+
+L'objectif de ce TP est triple :
+
+\begin{itemize}
+\item Se remémorer tous vos acquis en python via la manipulation de fonctions, de listes de listes, de fichiers texte.
+\item Manipuler et modéliser des entités comme des "auteurs", des "livres", des emprunts afin de vous préparer à la structuration d'un programme en objets.
+\item Développer le début d'un système d'information de médiathèque afin de vous préparer à la modélisation d'un tel système sous la forme d'une base de données
+\end{itemize}
+
+\section{Le système d'information}
+
+Nous allons manipuler les informations nécessaires à une médiathèque :
+
+Un usager est décrit par une liste Python contenant successivement : 
+
+\begin{itemize}
+\item Un identifiant (numérique)
+\item Un nom (chaîne de caractères)
+\item Un prénom (chaîne de caractères)
+\item Une date de naissance (une chaîne de caractère de la forme "JJ/MM/AAAA")
+\item Les emprunts (une liste d'identifiant d'emprunts, un identifiant étant un entier)
+\end{itemize}
+
+Un exemple d'usager~:
+
+\begin{verbatim}
+       [1,"Nonyme","Alphonse","01/01/2003",[1,2,4]]
+\end{verbatim}
+
+
+Les usagers sont stockés dans une liste.
+
+Un livre de la bibliothèque est décrit par une liste Python contenant successivement : 
+
+\begin{itemize}
+\item Un identifiant (numérique)
+\item Un titre (chaîne de caractères)
+\item Un auteur (chaîne de caractères)
+\item Des mots-clés (une liste de chaînes de caractères
+\end{itemize}
+
+Un exemple de livre~:
+
+\begin{verbatim}
+       [1,"Nana","Zola Emile",["Drame","Classique","Troisième Empire"]]
+\end{verbatim}
+
+Les livres de la bibliothèque sont stockés sous la forme d'une liste.
+
+Un emprunt est décrit par une liste Python contenant successivement :
+
+\begin{itemize}
+\item Un identifiant (numérique)
+\item L'identifiant du livre emprunté (numérique) ; cet identifiant doit se retrouver dans les liste des livres
+\item La date de début d'emprunt (une chaîne de caractère de la forme "JJ/MM/AAAA")
+\item La date de retour attendue du livre (une chaîne de caractères de la forme "JJ/MM/AAAA")
+\item La date effective de retour du livre (une chaîne de caractères de la forme "JJ/MM/AAAA" si le livre a été rendu, \texttt{None} sinon)
+\end{itemize}
+
+Un exemple d'emprunt~:
+
+\begin{verbatim}
+       [4,3,"01/01/2015","01/02/2015","15/01/2015"]
+\end{verbatim}
+
+Les emprunts de la bibliothèque sont stockés sous la forme d'une liste. L'historique des emprunts est conservé sans nettoyage (certainement pour pouvoir faire des statistiques)~: un livre rendu voit la date de retour effective mise à jour, mais l'emprunt ne disparaît pas de la liste. Le lien entre un emprunt et l'emprunteur se fait par la liste des usagers (rappel~: chaque usager comprend une information sur la liste de ses emprunts)
+
+Les divers identifiants (d'usager, de livre, d'emprunt) permettent d'identifier de manière unique ce à quoi ils se réfèrent, et permettent de faire le lien entre les trois listes. 
+
+\section{Ce qui vous est donné}
+
+Vous avez à disposition un fichier python comprenant l'initialisation d'un système d'information
+
+
+\section{Fonctions à programmer}
+
+
+
+
+\end{document}
+
