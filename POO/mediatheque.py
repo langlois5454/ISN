@@ -59,39 +59,49 @@ def lister_livres_sur_mot_cle(livres,mot_cle):
     """
     return [l[0] for l in livres if mot_cle in l[3]]
 
-def posterieur(d1,d2):
+def date_posterieure(d1,d2):
     """
     renvoie True si la date d2 (sous la forme "DD/MM/YYYY")
     est postérieure (ou égale) à la date d1
     """
     da1 = datetime.strptime(d1, '%d/%m/%Y')
     da2 = datetime.strptime(d2, '%d/%m/%Y')
-    return d2 >= d1
+    return da2 >= da1
 
-def livre_plus_recemment_rendu(livres,liste_usagers,id_usager):
+def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
     usager = None
     for u in liste_usagers:
         if u[0] == id_usager:
             usager = u
-    liste_emprunts = u[4]
+    liste_emprunts = usager[4]
     ##(id_livre,debut,fin_attendue,fin_reelle = None)
     dernier_emprunt_rendu = None
-    for e in liste_emprunts:
-        if e[-1] != None:
-            if dernier_emprunt_rendu == None:
-                dernier_emprunt_rendu = e
-            else:
-                if date_posterieure(dernier_emprunt_rendu[-1],e[-1]):
-                    dernier_emprunt_rendu = e
-    return e[1]             
+    for id_e in liste_emprunts:
+        print("id emprunt",id_e)
+        ## (id_emprunt,id_livre,debut,fin_attendue,fin_reelle = None)
+        for e in emprunts:
+            if e[0] == id_e:
+                if e[-1] != None:
+                    if dernier_emprunt_rendu == None:
+                        dernier_emprunt_rendu = e
+                        print("-->",dernier_emprunt_rendu)
+                    else:
+                        if date_posterieure(dernier_emprunt_rendu[-1],e[-1]):
+                            dernier_emprunt_rendu = e
+                            print("-->",dernier_emprunt_rendu)
+
+    if dernier_emprunt_rendu == None:
+        return None
+    else:
+        return dernier_emprunt_rendu[1]             
                 
                 
     
 
 ## main
 
-usagers_test = [[1,"Nonyme","Alphonse","01/01/2003",[1,2]],[2,"Camion","Bo","18/03/1954",[3]]]
-emprunts_test = [[1,"12/07/2018","12/08/2018","10/08/2018"],[2,"01/09/2018","01/11/2018",None],[3,"01/09/2018","01/11/2018","01/10/2018"]]
+usagers_test = [[1,"Nonyme","Alphonse","01/01/2003",[1,2,4]],[2,"Camion","Bo","18/03/1954",[3]]]
+emprunts_test = [[4,3,"01/01/2015","01/02/2015","15/01/2015"],[1,1,"12/07/2018","12/08/2018","10/08/2018"],[2,2,"01/09/2018","01/11/2018",None],[3,3,"01/09/2018","01/11/2018","01/10/2018"]]
 livres_test = [[1,"Nana","Zola Emile",["Drame","Classique","Troisième Empire"]],[2,"La parfum de la dame en noir","Leroux Gaston",["Policier","Rouletabille"]],[3,"Le chien de Baskerville","Doyle Conan",["Policier","Sherlock Holmes"]]]
 
 print(usagers_test)
@@ -103,7 +113,8 @@ print(lister_usagers_majeurs(usagers_test))
 
 print(lister_livres_sur_mot_cle(livres_test,"Policier"))
 
-print(livre_plus_recemment_rendu(livres_test,usagers_test,1))
+print(livre_plus_recemment_rendu(emprunts_test,usagers_test,1))
+
 
 
       
