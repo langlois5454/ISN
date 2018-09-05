@@ -1,0 +1,270 @@
+\documentclass[11pt,a4paper]{article} %twocolumn
+  \usepackage[francais]{babel}
+	\usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+  \renewcommand*\familydefault{\sfdefault} 
+	\usepackage{eurosym}
+	\usepackage{xspace}
+  
+	\usepackage{amsmath}
+	\usepackage{amsthm}
+	\usepackage{amssymb}
+	%\usepackage{sfmath}
+
+	\usepackage{tabularx,booktabs}
+%	\usepackage[a4paper, hmargin=2.5cm, vmargin=1.5cm, marginparwidth=2.5cm]{geometry}
+	\usepackage{fancyhdr}
+  \pagestyle{empty}
+  \usepackage[empty]{fullpage}
+  
+  \usepackage[linesnumbered,ruled,vlined,french]{algorithm2e}
+  \usepackage{listings}
+  \lstdefinelanguage{PLSQL}[]{SQL}{
+    morekeywords={ENUM,IF,REFERENCES,DECLARE,BEGIN,
+    ELSIF,WHILE,LOOP,EXIT,FOR,REVERSE,OPEN,FETCH,CLOSE,
+    IS,CURSOR,RAISE,REPLACE,PROCEDURE,CALL,RETURN,CONSTANT,
+    REFERENCING,OLD,NEW,AFTER,BEFORE,EACH,ROW,MINUS},
+    deletekeywords={ACTION} }[keywords,comments,strings]
+  \lstset{language=PLSQL, basicstyle=\footnotesize}  
+
+  %\usepackage{bussproofs}
+
+	\usepackage{url}
+	\usepackage[a4paper]{hyperref}
+	\hypersetup{
+				pdfauthor   = {Romuald THION},%
+				pdftitle    = {},%
+				pdfsubject  = {}
+		}	
+
+
+  \usepackage[]{exercise}%% %noanswer answerdelayed
+  \renewcommand{\ExerciseHeaderTitle}{\ExerciseTitle}
+  \renewcommand{\ExerciseHeader}{{\textbf{\large
+  \ExerciseHeaderDifficulty \ExerciseName~\ExerciseHeaderNB~: \ExerciseHeaderTitle
+  \ExerciseHeaderOrigin\medskip}}}
+  \renewcommand{\AnswerHeader}{\medskip{\textbf{\large
+  \AnswerName~\ExerciseHeaderNB}\smallskip}}
+
+
+\newcommand{\univers}{\ensuremath{\cal U}\xspace}
+\newcommand{\valeurs}{\ensuremath{\cal D}\xspace}
+\newcommand{\R}{\ensuremath{\mathbf{R}}\xspace}
+\newcommand{\df}{\rightarrow}
+\newcommand{\di}{\subseteq}
+	
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\title{\textsc{Lif{10} -- Fondements des bases de données}\\
+        \emph{TD -- Introduction aux dépendances}}       
+\author{Licence informatique -- printemps 2012--2013}        
+\date{}%L3 Info -- printemps 2012--2013}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+  \maketitle
+  \thispagestyle{empty}
+
+
+	\begin{abstract}
+	Exemples d'exercices \LaTeXe
+	\end{abstract} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{Exercise}[title={vérification des dépendances en SQL}, label={TD2.3}]
+
+Prouver que $r,s \models R[X] \di S[Y]$ \emph{si et seulement si} $|\pi_X(r) \setminus \pi_{Y}(s)|=0$, en déduire  une requête SQL qui permet de tester la satisfaction d'une dépendance d'inclusion.
+
+\end{Exercise}
+
+\begin{Answer}[ref={TD2.3}]
+
+On procède par équivalence successives. Par définition, $r,s \models R[X] \di S[Y]$ est équivalent à $\pi_X(r) \di \pi_Y(s)$ ce qui à son tour équivaut à $\pi_X(r) \setminus \pi_Y(s) = \emptyset$ qui équivaut à $|\pi_X(r) \setminus \pi_{Y}(s)|=0$. Pour SQL, on va traduire assez directement $|\pi_X(r) \setminus \pi_{Y}(s)|$ et tester si le résultat est $0$ :
+\begin{lstlisting}
+SELECT COUNT(*)
+FROM  (SELECT DISTINCT X FROM r
+       MINUS
+       SELECT DISTINCT Y FROM s)
+
+\end{lstlisting}
+\end{Answer}
+
+
+
+
+
+\begin{Exercise}[title={inférence de dépendances}, label={TD3.1}]
+
+On rappelle les règles d'inférences suivantes pour les dépendances fonctionnelles.
+
+\begin{minipage}{0.45\textwidth}
+\begin{center}
+    \begin{prooftree}
+    \AxiomC{$Y \subseteq X$}
+    \RightLabel{$\sigma_R$ (réflexivité)}
+    \UnaryInfC{$X \df Y $}
+    \end{prooftree}
+    \begin{prooftree}
+    \AxiomC{$X \df Y$}
+    \RightLabel{$\sigma_A$ (augmentation)}
+    \UnaryInfC{$WX \df WY $}
+    \end{prooftree}
+    \begin{prooftree}
+    \AxiomC{$X \df Y$}
+    \AxiomC{$Y \df Z$}
+    \RightLabel{$\sigma_T$ (transitivité)}
+    \BinaryInfC{$X \df Z$}
+    \end{prooftree}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+\begin{center}
+    \begin{prooftree}
+    \AxiomC{$X \df Y$}
+    \AxiomC{$X \df Z$}
+    \RightLabel{$\sigma_C$ (composition)}
+    \BinaryInfC{$X \df YZ$}
+    \end{prooftree}
+    \begin{prooftree}
+    \AxiomC{$X \df YZ$}
+    \RightLabel{$\sigma_D$ (décomposition)}
+    \UnaryInfC{$X \df Y$}
+    \end{prooftree}
+    \begin{prooftree}
+    \AxiomC{$X \df Y$}
+    \AxiomC{$WY \df Z$}
+    \RightLabel{$\sigma_P$ (pseudo-transitivité)}
+    \BinaryInfC{$WX \df Z$}
+    \end{prooftree}
+\end{center}
+\end{minipage}
+
+Soit $\Sigma$ l'ensemble des dépendances suivantes
+
+\begin{center}
+\begin{minipage}[t]{.32\linewidth}
+    $BC\df A$\\
+    $AC\df B$\\
+    $AE\df C$
+  \end{minipage}
+  \begin{minipage}[t]{.32\linewidth}
+    $D\df BE$ \\ 
+    $B\df DE$\\    
+    $C\df E$
+  \end{minipage}
+\end{center}
+
+\Question En utilisant les règles le système d'Armstrong augmenté des règles de composition et décomposition, prouver que les DF suivantes appartiennent à $\Sigma^+ = \{f \mid \Sigma \models f\}$:
+\begin{enumerate}
+\item $AD\df C$
+\item $CD\df A$
+\end{enumerate}
+
+
+\Question Même question en calculant la fermeture des parties gauches à partir de l'algorithme de fermeture.
+\end{Exercise}
+
+
+
+\begin{Answer}[ref={TD3.1}]
+
+  \Question
+
+  \begin{enumerate}
+    \item 
+  \begin{prooftree}
+      \AxiomC{$D \df BE$}
+      \RightLabel{aug.}
+      \UnaryInfC{$AD \df ABE$}
+      \AxiomC{$AE \di ABE$}
+      \RightLabel{refl.}
+      \UnaryInfC{$ABE \df AE$}
+      \RightLabel{trans.}
+      \BinaryInfC{$AD \df AE$}
+      \AxiomC{$AE \df C$}
+      \RightLabel{trans.}
+      \BinaryInfC{$AD \df C$}
+      \end{prooftree}
+
+  \item 
+      \begin{prooftree}
+      \AxiomC{$D \df BE$}
+      \RightLabel{decomp.}
+      \UnaryInfC{$D \df B$}
+      \RightLabel{aug.}
+      \UnaryInfC{$CD \df BC$}
+      \AxiomC{$BC \df A$}
+      \RightLabel{trans.}
+      \BinaryInfC{$CD \df A$}
+      \end{prooftree}
+  \end{enumerate}
+
+  \Question
+  \begin{enumerate}
+    \item Pour  $AD \df C$, les étapes successives de l'algorithme sont les suivantes :
+    \begin{enumerate}
+      \item $closure = AD$
+      \item $closure = ABDE$ en utilisant $D\df BE$ 
+      \item $closure = ABCDE$ en utilisant $AE\df C$
+      \item comme $C \subseteq AD^+$, on en déduit $AD \df C$ par correction de l'algorithme
+    \end{enumerate}
+      \item Pour  $CD \df A$, les étapes successives de l'algorithme sont les suivantes :
+    \begin{enumerate}
+      \item $closure = CD$
+      \item $closure = BCDE$ en utilisant $D\df BE$ 
+      \item $closure = ABCDE$ en utilisant $BC\df A$
+      \item comme $A \subseteq CD^+$, on en déduit $CD \df A$ par correction de l'algorithme
+    \end{enumerate}
+  \end{enumerate}
+\end{Answer}
+
+
+
+
+\begin{algorithm}
+\KwData{ $\Sigma$ un ensemble de DF, $X$ un ensemble d'attributs.}
+\KwResult{ $X^+$, la fermeture de $X$ par $\Sigma$.}
+$unused := \Sigma$\\
+$closure := X$\\
+\Repeat{$closure' = closure$}
+	{ $closure':= closure$\;
+	\If{$W\df Z \in unused \text{ and } W \subseteq closure$}
+		{
+		$unused := unused - \{W\df Z \}$\;
+		$closure:= closure \cup Z$\;
+		}
+	}	 
+\Return $closure$\;
+\label{algo}
+\caption{fermeture d'un ensemble d'attributs par des dépendances fonctionnelles}
+\end{algorithm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%A (dé)commenter lors de l'utilisation du paramètre answerdelayed du package {exercise} pour avoir les
+%corrections séparées
+ 
+%\clearpage
+%\section{Corrections}
+%\shipoutAnswer
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Bibliographic references
+
+%	\bibliographystyle{abbrv}
+%	\bibliography{biblio}
+
+\end{document}
