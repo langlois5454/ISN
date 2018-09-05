@@ -26,6 +26,7 @@
 ##Y- fiche identité usager (3 listes)
 
 from datetime import datetime
+import utils
 
 def changer_nom_usager(liste_usagers,id_usager,nv_nom):
     """
@@ -35,22 +36,14 @@ def changer_nom_usager(liste_usagers,id_usager,nv_nom):
         if liste_usagers[i][0] == id_usager:
             liste_usagers[i][1] =  nv_nom
 
-def majeur(usager):
-    """
-    renvoie True si un usager est majeur, False, sinon
-    """
-    date_naissance = datetime.strptime(usager[3], '%d/%m/%Y')
-    date_majeur = datetime(date_naissance.year+18,date_naissance.month,date_naissance.day)
-    aujourdhui = datetime.now()
-    duree = aujourdhui-date_majeur
-    return duree.days >= 0
+
 
 def lister_usagers_majeurs(usagers):
     """
     retourne la liste des identifiants des usagers
     majeurs
     """
-    return [u[0] for u in usagers if majeur(u)]
+    return [u[0] for u in usagers if utils.majeur(u[3])]
         
 def lister_livres_sur_mot_cle(livres,mot_cle):
     """
@@ -58,15 +51,6 @@ def lister_livres_sur_mot_cle(livres,mot_cle):
     associés au mot-clé mot_cle
     """
     return [l[0] for l in livres if mot_cle in l[3]]
-
-def date_posterieure(d1,d2):
-    """
-    renvoie True si la date d2 (sous la forme "DD/MM/YYYY")
-    est postérieure (ou égale) à la date d1
-    """
-    da1 = datetime.strptime(d1, '%d/%m/%Y')
-    da2 = datetime.strptime(d2, '%d/%m/%Y')
-    return da2 >= da1
 
 def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
     """
@@ -89,7 +73,7 @@ def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
                         dernier_emprunt_rendu = e
                         print("-->",dernier_emprunt_rendu)
                     else:
-                        if date_posterieure(dernier_emprunt_rendu[-1],e[-1]):
+                        if utils.date_posterieure(dernier_emprunt_rendu[-1],e[-1]):
                             dernier_emprunt_rendu = e
                             print("-->",dernier_emprunt_rendu)
 
