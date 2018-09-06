@@ -102,14 +102,32 @@ Vous avez à disposition deux fichiers Python~:
 
 \subsection{Partie 1~: manipulation du système d'information}
 
-Ouvrez le fichier \texttt{mediatheque\_fichier0.py}, exécutez-le pour constater l'affichage suite à l'appel de la fonction \texttt{nb\_livres\_empruntes}. Etudiez cette fonction pour en comprendre le fonctionnement. cela vous permettra de réviser la définition de fonction, le passage d'arguments, le parcours de liste, les conditionnelles. Examinez comment on accède aux éléments d'information sur un usager via l'opérateur \texttt{\[\]}. 
+Ouvrez le fichier \texttt{mediatheque\_fichier0.py}, exécutez-le pour constater l'affichage suite à l'appel de la fonction \texttt{nb\_livres\_empruntes}. Etudiez cette fonction pour en comprendre le fonctionnement. cela vous permettra de réviser la définition de fonction, le passage d'arguments, le parcours de liste, les conditionnelles. 
 
+Examinez comment on accède aux éléments d'information sur un usager via l'opérateur \texttt{\[\]}. 
 
+Cette manière de gérer l'accès aux données peut poser plusieurs problèmes~:
 
+\begin{itemize}
+\item \textbf{Manque de lisibilité}~: Il faut faire un effort de mémoire pour se souvenir que, par exemple, pour un usager \texttt{u}, \texttt{u[1]} permet d'accéder au nom de l'usager.
+\item \textbf{Evolutivité compliquée}~: on peut vouloir modifier le système d'information. Par exemple, on peut vouloir inverser des informations (pour un usager le prénom en position 1 et le nom en position 2), ou l'enrichir (ajouter l'adresse et le numéro de téléphone pour un usager juste après les noms et prénoms). De tels changements imposent de revoir tout le code (pour le moment, vous n'avez qu'une seule fonction, mais cela va augmenter), et de changer les indices un peu partout, et on va sans doute en oublier, ce qui va provoquer des bugs.
+\end{itemize}
 
+Pour contourner ces problèmes, nous allons créer pour chaque information deux fonctions, une pour la lire (fonction \texttt{get}, une autre pour la modifier (fonction \texttt{set}). Par exemple~:
 
+\begin{verbatim}
+   def usager_get_id(u):
+      return u[0]
 
-1. get set
+   def usager_set_id(u,nvlle_val):
+      u[0] = nvlle_val
+\end{verbatim}
+
+En procédant ainsi pour chaque information, il devient alors facile de modifier la système d'information en modifiant seulement les fonctions \texttt{get} et \texttt{set}. Par ailleurs, le nom des fonctions \texttt{get} et \texttt{set} est facile à mémoriser.
+
+Pour le moment, ne créez pas toutes les fonctions get et set, mais juste celles dont vous avez besoin pour modifier la fonction \texttt{nb\_livres\_empruntes}. Reportez ces fonctions dans un fichier nommé \texttt{systeme\_information\_mediatheque.py} et importez ce fichier dans \texttt{mediatheque\_fichier0.py} (que vous pourrez renommer en \texttt{mediatheque.py)}. Vous enrichirez au fur et à mesure le fichier \texttt{systeme\_information\_mediatheque.py}.
+
+\subsection{Partie 2 : révisions sur les listes et listes de listes, and co}
 
 
 
