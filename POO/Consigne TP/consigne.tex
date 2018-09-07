@@ -10,7 +10,7 @@
 
 \title{Système d'information~: bibliothèque}
 
-\author{Langlois David, david.langlois@univ-lorraine.fr}
+\author{Langlois David, david.langlois@univ-lorraine.fr\\Parmentier Yannick, yannick.parmentier@univ-lorraine.fr}
 
 \maketitle
 
@@ -128,6 +128,82 @@ En procédant ainsi pour chaque information, il devient alors facile de modifier
 Pour le moment, ne créez pas toutes les fonctions get et set, mais juste celles dont vous avez besoin pour modifier la fonction \texttt{nb\_livres\_empruntes}. Reportez ces fonctions dans un fichier nommé \texttt{systeme\_information\_mediatheque.py} et importez ce fichier dans \texttt{mediatheque\_fichier0.py} (que vous pourrez renommer en \texttt{mediatheque.py)}. Vous enrichirez au fur et à mesure le fichier \texttt{systeme\_information\_mediatheque.py}.
 
 \subsection{Partie 2 : révisions sur les listes et listes de listes, and co}
+
+Rédigez les fonctions ci-dessous.
+
+
+\subsubsection{Lecture de fichiers texte}
+
+Créez la fonction \texttt{charger\_auteurs(nom\_fichier)} qui crée et renvoie une liste d'auteurs à partir de la lecture du fichier de nom \texttt{nom\_fichier}. Le fichier est de type csv et contient une ligne par auteur. Un exemple de lignes est~: A METTRE A JOUR EN FONCTION DES CHOIX JSON
+
+\subsubsection{Manipulation d'une seule liste}
+
+\begin{itemize}
+
+\item la fonction \texttt{changer\_nom\_usager(liste\_usagers,id\_usager,nv\_nom)} qui modifie le nom de l'usager d'identifiant \texttt{id\_usager}. La liste des usagers est donnée dans \texttt{liste\_usagers}. Le nouveau nom est donné par \texttt{nv\_nom}
+
+\item la fonction \texttt{ajouter\_mot\_cle(liste\_livres,id\_livre,nv\_mot\_cle)} qui ajoute le mot clé \texttt{nv\_mot\_cle} au livre d'identifiant \texttt{id\_livre}. La liste des livres est donnée par \texttt{liste\_livres}.
+
+\item la fonction \texttt{lister\_usagers\_majeurs(usagers)} qui renvoie la liste des identifiants des usagers qui sont majeurs (en fonction de la date au moment où la fonction est exécutée. usagers donne la liste des usagers. Pour déterminer si un usager est majeur, vous disposez d'une fonction \texttt{majeur} dans le fichier \texttt{utils.py}.
+
+\item la fonction \texttt{lister\_pret\_en\_retard()}.
+
+\item la fonction \texttt{lister\_livres\_sur\_mot\_cle(livres,mot\_cle)} qui renvoie la liste des identifiants de tous les livres associés au mot clé \texttt{mot\_cle}. La liste des livres est donnée par \texttt{livres}.
+
+\end{itemize}
+
+\subsubsection{Manipulation de deux listes}
+
+Les fonctions ci-dessous vont requérir de croiser l'information de deux listes.
+
+\begin{itemize}
+
+
+\item titres des livres actuellement empruntés (2 listes)
+
+\item la fonction \texttt{livre\_plus\_recemment\_rendu(emprunts,liste\_usagers,id\_usager)} qui renvoie l'identifiant du livre le plus récemment rendu par l'usager d'identifiant \texttt{id\_usager}. Si l'usager n'a jamais rendu de livre, la fonction renvoie None. La liste des usagers est donnée pas \texttt{liste\_usagers}. La liste des emprunts est donnée par emprunts.
+
+\item liste des personnes ayant emprunté le livre d'identifiant X (2 listes)
+
+\end{itemize}
+
+\subsubsection{Manipulation de trois listes}
+
+Les fonctions ci-dessous vont requérir de croiser l'information de trois listes.
+
+\begin{itemize}
+
+\item liste des personnes ayant emprunté le livre de titre X (3 listes)
+\item la fonction \texttt{liste\_usagers\_ayant\_emprunte\_livre\_titre\_X(usagers,livres,emprunts,titre)} qui renvoie la liste des usagers ayant emprunté le livre de titre \texttt{titre}. Les listes des usagers, des livres et des emprunts sont donnés respectivement par \texttt{usagers}, \texttt{livres} et \texttt{emprunts}.
+
+\item liste des mots clés (sans doublon) emprunté par X --> enjeu sociétaux
+
+\item la fonction \texttt{XX} qui affiche la fiche d'identité d'un usager sous la forme suivante (le chiffre entre parenthèses indique l'identifiant du livre)~:\\
+\begin{verbatim}
+   Nonyme Albert
+   Naissance : XX/XX/XXXX
+   Livres actuellement empruntés :
+      Les Misérables (4), retour attendu le XX/XX/XXXX
+      Tintin et les Picaros (18), retour attendu le XX/XX/XXXX
+      Poil de Carotte (54), retour attendu le XX/XX/XXXX
+\end{verbatim}
+
+
+
+\end{itemize}
+
+
+\subsubsection{Manipulation de trois listes}
+
+\begin{itemize}
+
+\item (bonus) le nombre max de livres empruntés en même temps par quelqu'un
+
+\end{itemize}
+
+
+
+
 
 
 
