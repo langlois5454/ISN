@@ -134,7 +134,22 @@ Rédigez les fonctions ci-dessous.
 
 \subsubsection{Lecture de fichiers texte}
 
-Créez la fonction \texttt{charger\_auteurs(nom\_fichier)} qui crée et renvoie une liste d'auteurs à partir de la lecture du fichier de nom \texttt{nom\_fichier}. Le fichier est de type csv et contient une ligne par auteur. Un exemple de lignes est~: A METTRE A JOUR EN FONCTION DES CHOIX JSON
+Une première chose à faire est de pouvoir lire les données du système d'information à partir du disque. Voici comment est stocké sur disque le système d'information. Le stockage utilise 4 fichiers de types csv (le séparateur est le point-virgule)~:
+
+\begin{itemize}
+\item usagers.csv : contient une ligne par usager. Chaque ligne comprend 4 colonnes~: identifiant, nomn prénom, date de naissance
+\item livres.csv~: contient une ligne par livre. Chaque ligne comprend 6 colonnes~: identifiant, titre, nom de l'auteur, mot-clé 1, mot-clé 2, mot-clé 3. Si le livre est associé à moins de 3 mots-clés, le champ correspondant est remplacé par \texttt{Néant}.
+\item emprunts.csv~: contient une ligne par emprunt. Chaque ligne comprend 5 colonnes~: identifiant de l'emprunt, identifiant du livre emprunté, date d'emprunt, date attendue de retour, date de retour effective. Si le livre n'a pas été rendu, la dernière colonne contient \texttt{Néant}. 
+\item emprunts_usagers.csv~: c'est ce fichier qui fait le lien entre les usagers et les emprunts. Le fichier contient une ligne par association usager-emprunt. Chaque ligne comprend 2 colonnes~: identifiant de l'usager, identifiant de l'emprunt.
+\end{itemize}
+
+Créez les fonctions~:
+
+\begin{itemize}
+\item Créez la fonction \texttt{charger\_auteurs(nom\_fichier)} qui crée et renvoie une liste d'auteurs à partir de la lecture du fichier de nom \texttt{nom\_fichier}. Le fichier est de type csv et contient une ligne par auteur. Un exemple de lignes est~: A METTRE A JOUR EN FONCTION DES CHOIX JSON
+\end{itemize}
+
+
 
 \subsubsection{Manipulation d'une seule liste}
 
