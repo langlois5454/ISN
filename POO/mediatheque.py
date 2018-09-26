@@ -27,6 +27,64 @@
 
 from datetime import datetime
 import utils
+import csv
+
+## chargement
+
+def charger_usagers(nom_fichier):
+    retour = []
+    f = open(nom_fichier,"r")
+    csv_reader = csv.reader(f,delimiter=';')
+    for ligne in csv_reader:
+        ligne[0] = int(ligne[0])
+        ligne.append([])
+        retour.append(ligne)
+    f.close()
+    return retour
+
+def charger_livres(nom_fichier):
+    retour = []
+    f = open(nom_fichier,"r")
+    csv_reader = csv.reader(f,delimiter=';')
+    for ligne in csv_reader:
+        livre = ligne[0:-3]
+        livre[0] = int(livre[0])
+        motscles = [x for x in ligne[-3:] if x != "Néant"]
+        livre.append(motscles)
+        retour.append(livre)
+    f.close()
+    return retour
+    
+def charger_emprunts(nom_fichier):
+    retour = []
+    f = open(nom_fichier,"r")
+    csv_reader = csv.reader(f,delimiter=';')
+    for ligne in csv_reader:
+        ligne[0] = int(ligne[0])
+        ligne[1] = int(ligne[1])
+        if ligne[-1] == "Néant":
+            ligne[-1] = None
+        retour.append(ligne)
+    f.close()
+    return retour
+
+def charger_emprunts_usagers(usagers,nom_fichier):
+    f = open(nom_fichier,"r")
+    csv_reader = csv.reader(f,delimiter=';')
+    for ligne in csv_reader:
+        id_usager = int(ligne[0])
+        id_emprunt = int(ligne[1])
+        for i in range(len(usagers)):
+            if usagers[i][0] == id_usager:
+                usagers[i][-1].append(id_emprunt)
+    f.close()
+
+
+
+
+
+
+
 
 def changer_nom_usager(liste_usagers,id_usager,nv_nom):
     """
@@ -64,18 +122,15 @@ def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
     ##(id_livre,debut,fin_attendue,fin_reelle = None)
     dernier_emprunt_rendu = None
     for id_e in liste_emprunts:
-        print("id emprunt",id_e)
         ## (id_emprunt,id_livre,debut,fin_attendue,fin_reelle = None)
         for e in emprunts:
             if e[0] == id_e:
                 if e[-1] != None:
                     if dernier_emprunt_rendu == None:
                         dernier_emprunt_rendu = e
-                        print("-->",dernier_emprunt_rendu)
                     else:
                         if utils.date_posterieure(dernier_emprunt_rendu[-1],e[-1]):
                             dernier_emprunt_rendu = e
-                            print("-->",dernier_emprunt_rendu)
 
     if dernier_emprunt_rendu == None:
         return None
@@ -104,21 +159,38 @@ def liste_usagers_ayant_emprunte_livre_titre_X(usagers,livres,emprunts,titre):
 
 ## main
 
-usagers_test = [[1,"Nonyme","Alphonse","01/01/2003",[1,2,4]],[2,"Camion","Bo","18/03/1954",[3]]]
-emprunts_test = [[4,3,"01/01/2015","01/02/2015","15/01/2015"],[1,1,"12/07/2018","12/08/2018","10/08/2018"],[2,2,"01/09/2018","01/11/2018",None],[3,3,"01/09/2018","01/11/2018","01/10/2018"]]
-livres_test = [[1,"Nana","Zola Emile",["Drame","Classique","Troisième Empire"]],[2,"La parfum de la dame en noir","Leroux Gaston",["Policier","Rouletabille"]],[3,"Le chien de Baskerville","Doyle Conan",["Policier","Sherlock Holmes"]]]
+usagers = charger_usagers("usagers.csv")
+livres = charger_livres("livres.csv")
+emprunts = charger_emprunts("emprunts.csv")
+charger_emprunts_usagers(usagers,"emprunts_usagers.csv")
 
-print(usagers_test)
+print("Les usagers")
+print("=================================")
+for u in usagers:
+    print("   ",u)
+print("")
+print("Les livres")
+print("=================================")
+for l in livres:
+    print("   ",l)
+print("")
+print("Les emprunts")
+print("=================================")
+for e in emprunts:
+    print("   ",e)
+print("")
 
-changer_nom_usager(usagers_test,2,"Bine")
-print(usagers_test)
 
-print(lister_usagers_majeurs(usagers_test))
 
-print(lister_livres_sur_mot_cle(livres_test,"Policier"))
+changer_nom_usager(usagers,2,"Bine")
+print(usagers)
 
-print(livre_plus_recemment_rendu(emprunts_test,usagers_test,1))
+print(lister_usagers_majeurs(usagers))
 
-print(liste_usagers_ayant_emprunte_livre_titre_X(usagers_test,livres_test,emprunts_test,"Le chien de Baskerville"))
+print(lister_livres_sur_mot_cle(livres,"Policier"))
+
+print(livre_plus_recemment_rendu(emprunts,usagers,1))
+
+print(liste_usagers_ayant_emprunte_livre_titre_X(usagers,livres,emprunts,"Le chien de Baskerville"))
 
       
