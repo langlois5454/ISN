@@ -1,18 +1,25 @@
-\documentclass[10pt,a4paper,onecolumn]{article}
+\documentclass[10pt,a4paper]{sujets-exercices}
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[left=2.5cm,right=2.5cm,top=2cm,bottom=2cm]{geometry}
 
+\iutset{%
+  type={tp},%
+  lieu={ESPE de Lorraine},%
+  cours={Formation ISN, niveau 2},%
+  annee={2018--2019},%
+  titre={Système d'information : bibliothèque},%
+  numero={1}%
+}
+
 \renewcommand{\FrenchLabelItem}{\textbullet}
 
 \begin{document}
 
-\title{Système d'information~: bibliothèque}
-
-\author{Langlois David, david.langlois@univ-lorraine.fr\\Parmentier Yannick, yannick.parmentier@univ-lorraine.fr}
-
-\maketitle
+%\title{Système d'information~: bibliothèque}
+%\author{Langlois David, david.langlois@univ-lorraine.fr\\Parmentier Yannick, yannick.parmentier@univ-lorraine.fr}
+%\maketitle
 
 "Le système d'information (SI) est un ensemble organisé de ressources qui permet de collecter, stocker, traiter et distribuer de l'information" (source~: wikipedia).
 
@@ -24,7 +31,7 @@ L'objectif de ce TP est triple :
 
 \begin{itemize}
 \item Se remémorer tous vos acquis en python via la manipulation de fonctions, de listes de listes, de fichiers texte.
-\item Manipuler et modéliser des entités comme des "auteurs", des "livres", des emprunts afin de vous préparer à la structuration d'un programme en objets.
+\item Manipuler et modéliser des entités comme des \emph{auteurs}, des \emph{livres}, des \emph{emprunts} afin de vous préparer à la structuration d'un programme en objets.
 \item Développer le début d'un système d'information de médiathèque afin de vous préparer à la modélisation d'un tel système sous la forme d'une base de données
 \end{itemize}
 
@@ -32,14 +39,14 @@ L'objectif de ce TP est triple :
 
 Nous allons manipuler les informations nécessaires à une médiathèque :
 
-Un usager est décrit par une liste Python contenant successivement : 
+Un \textbf{usager} est décrit par une liste Python contenant successivement : 
 
 \begin{itemize}
 \item Un identifiant (numérique)
 \item Un nom (chaîne de caractères)
 \item Un prénom (chaîne de caractères)
 \item Une date de naissance (une chaîne de caractère de la forme "JJ/MM/AAAA")
-\item Les emprunts (une liste d'identifiant d'emprunts, un identifiant étant un entier)
+\item Les emprunts (une liste d'identifiants d'emprunts, un identifiant étant un entier)
 \end{itemize}
 
 Un exemple d'usager~:
@@ -51,13 +58,13 @@ Un exemple d'usager~:
 
 Les usagers sont stockés dans une liste.
 
-Un livre de la bibliothèque est décrit par une liste Python contenant successivement : 
+Un \textbf{livre} de la bibliothèque est décrit par une liste Python contenant successivement : 
 
 \begin{itemize}
 \item Un identifiant (numérique)
 \item Un titre (chaîne de caractères)
 \item Un auteur (chaîne de caractères)
-\item Des mots-clés (une liste de chaînes de caractères
+\item Des mots-clés (une liste de chaînes de caractères)
 \end{itemize}
 
 Un exemple de livre~:
@@ -68,11 +75,11 @@ Un exemple de livre~:
 
 Les livres de la bibliothèque sont stockés sous la forme d'une liste.
 
-Un emprunt est décrit par une liste Python contenant successivement :
+Un \textbf{emprunt} est décrit par une liste Python contenant successivement :
 
 \begin{itemize}
 \item Un identifiant (numérique)
-\item L'identifiant du livre emprunté (numérique) ; cet identifiant doit se retrouver dans les liste des livres
+\item L'identifiant du livre emprunté (numérique) ; cet identifiant doit se retrouver dans la liste des livres
 \item La date de début d'emprunt (une chaîne de caractère de la forme "JJ/MM/AAAA")
 \item La date de retour attendue du livre (une chaîne de caractères de la forme "JJ/MM/AAAA")
 \item La date effective de retour du livre (une chaîne de caractères de la forme "JJ/MM/AAAA" si le livre a été rendu, \texttt{None} sinon)
@@ -93,7 +100,7 @@ Les divers identifiants (d'usager, de livre, d'emprunt) permettent d'identifier 
 Vous avez à disposition deux fichiers Python~:
 
 \begin{itemize}
-\item \texttt{utils.py} : définit deux fonctions sur les dates, qui vous seront utiles. Remarquez l'utilisation de la librairie puissante datetime
+\item \texttt{utils.py} : définit deux fonctions sur les dates, qui vous seront utiles. Remarquez l'utilisation de la librairie puissante \texttt{datetime}
 \item \texttt{mediatheque\_fichier0.py} : ce fichier définit une fonction qui renvoie le nombre d'emprunts d'un usager. C'est à partir de ce fichier que vous allez travailler. Le fichier définit aussi un petit système d'information constitué de 3 listes, une respectivement pour les auteurs, les livres, et les emprunts.
 \end{itemize}
 
@@ -104,32 +111,32 @@ Vous avez à disposition deux fichiers Python~:
 
 Ouvrez le fichier \texttt{mediatheque\_fichier0.py}, exécutez-le pour constater l'affichage suite à l'appel de la fonction \texttt{nb\_livres\_empruntes}. Etudiez cette fonction pour en comprendre le fonctionnement. cela vous permettra de réviser la définition de fonction, le passage d'arguments, le parcours de liste, les conditionnelles. 
 
-Examinez comment on accède aux éléments d'information sur un usager via l'opérateur \texttt{\[\]}. 
+Examinez comment on accède aux éléments d'information sur un usager via l'opérateur \verb![ ]!. 
 
 Cette manière de gérer l'accès aux données peut poser plusieurs problèmes~:
 
 \begin{itemize}
 \item \textbf{Manque de lisibilité}~: Il faut faire un effort de mémoire pour se souvenir que, par exemple, pour un usager \texttt{u}, \texttt{u[1]} permet d'accéder au nom de l'usager.
-\item \textbf{Evolutivité compliquée}~: on peut vouloir modifier le système d'information. Par exemple, on peut vouloir inverser des informations (pour un usager le prénom en position 1 et le nom en position 2), ou l'enrichir (ajouter l'adresse et le numéro de téléphone pour un usager juste après les noms et prénoms). De tels changements imposent de revoir tout le code (pour le moment, vous n'avez qu'une seule fonction, mais cela va augmenter), et de changer les indices un peu partout, et on va sans doute en oublier, ce qui va provoquer des bugs.
+\item \textbf{Evolutivité compliquée}~: on peut vouloir modifier le système d'information. Par exemple, on peut vouloir inverser des informations (pour un usager mettre le prénom avant le nom), ou l'enrichir (ajouter l'adresse et le numéro de téléphone pour un usager juste après les noms et prénoms). De tels changements imposent de revoir tout le code (pour le moment, vous n'avez qu'une seule fonction, mais cela va augmenter), et de changer les indices un peu partout, et on va sans doute en oublier, ce qui va provoquer des bugs.
 \end{itemize}
 
-Pour contourner ces problèmes, nous allons créer pour chaque information deux fonctions, une pour la lire (fonction \texttt{get}, une autre pour la modifier (fonction \texttt{set}). Par exemple~:
+Pour contourner ces problèmes, nous allons créer pour chaque information deux fonctions, une pour la lire (fonction \texttt{get}), une autre pour la modifier (fonction \texttt{set}). Par exemple~:
 
 \begin{verbatim}
    def usager_get_id(u):
       return u[0]
 
-   def usager_set_id(u,nvlle_val):
+   def usager_set_id(u, nvlle_val):
       u[0] = nvlle_val
 \end{verbatim}
 
-En procédant ainsi pour chaque information, il devient alors facile de modifier la système d'information en modifiant seulement les fonctions \texttt{get} et \texttt{set}. Par ailleurs, le nom des fonctions \texttt{get} et \texttt{set} est facile à mémoriser.
+En procédant ainsi pour chaque information, il devient alors facile de modifier le système d'information en modifiant seulement les fonctions \texttt{get} et \texttt{set}. Par ailleurs, le nom des fonctions de type \texttt{get} et \texttt{set} est facile à mémoriser.
 
-Pour le moment, ne créez pas toutes les fonctions get et set, mais juste celles dont vous avez besoin pour modifier la fonction \texttt{nb\_livres\_empruntes}. Reportez ces fonctions dans un fichier nommé \texttt{systeme\_information\_mediatheque.py} et importez ce fichier dans \texttt{mediatheque\_fichier0.py} (que vous pourrez renommer en \texttt{mediatheque.py)}. Vous enrichirez au fur et à mesure le fichier \texttt{systeme\_information\_mediatheque.py}.
+Pour le moment, ne créez pas toutes les fonctions de type \texttt{get} et \texttt{set}, mais juste celles dont vous avez besoin pour modifier la fonction \texttt{nb\_livres\_empruntes}. Reportez ces fonctions dans un fichier nommé \texttt{systeme\_information\_mediatheque.py} et importez ce fichier dans \texttt{mediatheque\_fichier0.py} (que vous pourrez renommer en \texttt{mediatheque.py)}. Vous enrichirez au fur et à mesure le fichier \texttt{systeme\_information\_mediatheque.py}.
 
-\subsection{Partie 2 : révisions sur les listes et listes de listes, and co}
+\subsection{Partie 2 : révisions sur les listes, listes de listes, etc.}
 
-Rédigez les fonctions ci-dessous.
+Rédigez et \emph{testez} les fonctions décrites ci-dessous.
 
 
 \subsubsection{Lecture de fichiers texte}
@@ -137,7 +144,7 @@ Rédigez les fonctions ci-dessous.
 Une première chose à faire est de pouvoir lire les données du système d'information à partir du disque. Voici comment est stocké sur disque le système d'information. Le stockage utilise 4 fichiers de types csv (le séparateur est le point-virgule)~:
 
 \begin{itemize}
-\item \texttt{usagers.csv}~: contient une ligne par usager. Chaque ligne comprend 4 colonnes~: identifiant, nomn prénom, date de naissance
+\item \texttt{usagers.csv}~: contient une ligne par usager. Chaque ligne comprend 4 colonnes~: identifiant, nom, prénom, date de naissance
 \item \texttt{livres.csv}~: contient une ligne par livre. Chaque ligne comprend 6 colonnes~: identifiant, titre, nom de l'auteur, mot-clé 1, mot-clé 2, mot-clé 3. Si le livre est associé à moins de 3 mots-clés, le champ correspondant est remplacé par \texttt{Néant}.
 \item \texttt{emprunts.csv}~: contient une ligne par emprunt. Chaque ligne comprend 5 colonnes~: identifiant de l'emprunt, identifiant du livre emprunté, date d'emprunt, date attendue de retour, date de retour effective. Si le livre n'a pas été rendu, la dernière colonne contient \texttt{Néant}. 
 \item \texttt{emprunts\_usagers.csv}~: c'est ce fichier qui fait le lien entre les usagers et les emprunts. Le fichier contient une ligne par association usager-emprunt. Chaque ligne comprend 2 colonnes~: identifiant de l'usager, identifiant de l'emprunt.
@@ -146,15 +153,15 @@ Une première chose à faire est de pouvoir lire les données du système d'info
 Créez les fonctions~:
 
 \begin{itemize}
-\item \texttt{charger\_usagers(nom\_fichier)} qui crée et renvoie une liste d'usagers à partir de la lecture du fichier de nom \texttt{nom\_fichier}. Le fichier est de type csv (voir ci-dessus le fichier \texttt{usagers.csv}. Une fois chargé, chaque usager a une liste d'emprunts vide (cette liste sera mise à jour quand on lira le fichier \texttt{emprunts\_usagers.csv}.
+\item \texttt{charger\_usagers(nom\_fichier)} qui crée et renvoie une liste d'usagers à partir de la lecture du fichier nommé \texttt{nom\_fichier}. Le fichier est de type csv (cf descriptif du fichier \texttt{usagers.csv} ci-dessus). Une fois chargé, chaque usager a une liste d'emprunts vide (cette liste sera mise à jour quand on lira le fichier \texttt{emprunts\_usagers.csv}).
 
-\item \texttt{charger\_livres)} qui crée et renvoie une liste de livres à partir de la lecture du fichier de nom \texttt{nom\_fichier}. Le fichier est de type csv (voir ci-dessus le fichier \texttt{livres.csv}.
+\item \texttt{charger\_livres(nom\_fichier)} qui crée et renvoie une liste de livres à partir de la lecture du fichier nommé \texttt{nom\_fichier}. Le fichier est de type csv (cf descriptif du fichier \texttt{livres.csv} ci-dessus).
 
-\item \texttt{charger\_emprunts)} qui crée et renvoie une liste d'emprunts à partir de la lecture du fichier de nom \texttt{nom\_fichier}. Le fichier est de type csv (voir ci-dessus le fichier \texttt{emprunts.csv}.
+\item \texttt{charger\_emprunts(nom\_fichier)} qui crée et renvoie une liste d'emprunts à partir de la lecture du fichier nommé \texttt{nom\_fichier}. Le fichier est de type csv (cf descriptif du fichier \texttt{emprunts.csv} ci-dessus).
 
-\item \texttt{charger\_emprunts\_usagers(usagers,nom\_fichier)} qui met à jour la liste des emprunts des usagers listés dans \texttt{usagers} à partir des informations lues dans le fichier \texttt{nom\_fichier}. Le fichier est de type csv (voir ci-dessus le fichier \texttt{emprunts\_usagers.csv}.
+\item \texttt{charger\_emprunts\_usagers(usagers, nom\_fichier)} qui met à jour la liste des emprunts des usagers listés dans \texttt{usagers} à partir des informations lues dans le fichier \texttt{nom\_fichier}. Le fichier est de type csv (cf descriptif du fichier \texttt{emprunts\_usagers.csv} ci-dessus).
 
-\item \texttt{charger\_mediatheque} qui charge l'ensemble des informations (appel aux trois fonctions ci-dessus) à partir des fichiers \texttt{usagers.csv}, \texttt{livres.csv}, \texttt{emprunts.csv} et \texttt{emprunts\_usagers.csv} et renvoie les trois listes créées.
+\item \texttt{charger\_mediatheque(nom\_fichier1, nom\_fichier2, nom\_fichier3, \\nom\_fichier4)} qui charge l'ensemble des informations (appel aux trois fonctions ci-dessus) à partir des quatre fichiers qui représentent respectivement \texttt{usagers.csv}, \\ \texttt{livres.csv}, \texttt{emprunts.csv} et \texttt{emprunts\_usagers.csv} et renvoie les trois listes créées.
 
 \end{itemize}
 
@@ -164,11 +171,11 @@ Créez les fonctions~:
 
 \begin{itemize}
 
-\item la fonction \texttt{changer\_nom\_usager(liste\_usagers,id\_usager,nv\_nom)} qui modifie le nom de l'usager d'identifiant \texttt{id\_usager}. La liste des usagers est donnée dans \texttt{liste\_usagers}. Le nouveau nom est donné par \texttt{nv\_nom}
+\item la fonction \texttt{changer\_nom\_usager(liste\_usagers,id\_usager,nv\_nom)} qui modifie le nom de l'usager d'identifiant \texttt{id\_usager}. La liste des usagers est donnée dans \texttt{liste\_usagers}. Le nouveau nom est donné par \texttt{nv\_nom}.
 
 \item la fonction \texttt{ajouter\_mot\_cle(liste\_livres,id\_livre,nv\_mot\_cle)} qui ajoute le mot clé \texttt{nv\_mot\_cle} au livre d'identifiant \texttt{id\_livre}. La liste des livres est donnée par \texttt{liste\_livres}.
 
-\item la fonction \texttt{lister\_usagers\_majeurs(usagers)} qui renvoie la liste des identifiants des usagers qui sont majeurs (en fonction de la date au moment où la fonction est exécutée. usagers donne la liste des usagers. Pour déterminer si un usager est majeur, vous disposez d'une fonction \texttt{majeur} dans le fichier \texttt{utils.py}.
+\item la fonction \texttt{lister\_usagers\_majeurs(usagers)} qui renvoie la liste des identifiants des usagers qui sont majeurs (en fonction de la date au moment où la fonction est exécutée). \texttt{usagers} donne la liste des usagers. Pour déterminer si un usager est majeur, vous disposez d'une fonction \texttt{majeur} dans le fichier \texttt{utils.py}.
 
 \item la fonction \texttt{lister\_pret\_en\_retard()}.
 
@@ -182,12 +189,11 @@ Les fonctions ci-dessous vont requérir de croiser l'information de deux listes.
 
 \begin{itemize}
 
-
 \item titres des livres actuellement empruntés (2 listes)
 
-\item la fonction \texttt{livre\_plus\_recemment\_rendu(emprunts,liste\_usagers,id\_usager)} qui renvoie l'identifiant du livre le plus récemment rendu par l'usager d'identifiant \texttt{id\_usager}. Si l'usager n'a jamais rendu de livre, la fonction renvoie None. La liste des usagers est donnée pas \texttt{liste\_usagers}. La liste des emprunts est donnée par emprunts.
+\item la fonction \texttt{livre\_plus\_recemment\_rendu(emprunts,liste\_usagers,id\_usager)} qui renvoie l'identifiant du livre le plus récemment rendu par l'usager d'identifiant \texttt{id\_usager}. Si l'usager n'a jamais rendu de livre, la fonction renvoie \texttt{None}. La liste des usagers est donnée pas \texttt{liste\_usagers}. La liste des emprunts est donnée par \texttt{emprunts}.
 
-\item liste des personnes ayant emprunté le livre d'identifiant X (2 listes)
+\item liste des personnes ayant emprunté le livre d'identifiant X (2 listes).
 
 \end{itemize}
 
@@ -197,10 +203,11 @@ Les fonctions ci-dessous vont requérir de croiser l'information de trois listes
 
 \begin{itemize}
 
-\item liste des personnes ayant emprunté le livre de titre X (3 listes)
-\item la fonction \texttt{liste\_usagers\_ayant\_emprunte\_livre\_titre\_X(usagers,livres,emprunts,titre)} qui renvoie la liste des usagers ayant emprunté le livre de titre \texttt{titre}. Les listes des usagers, des livres et des emprunts sont donnés respectivement par \texttt{usagers}, \texttt{livres} et \texttt{emprunts}.
+\item liste des personnes ayant emprunté le livre de titre X (3 listes).
 
-\item liste des mots clés (sans doublon) emprunté par X --> enjeu sociétaux
+\item la fonction \texttt{liste\_usagers\_ayant\_emprunte\_livre\_titre\_X(usagers, livres,\\ emprunts, titre)} qui renvoie la liste des usagers ayant emprunté le livre de titre \texttt{titre}. Les listes des usagers, des livres et des emprunts sont donnés respectivement par \texttt{usagers}, \texttt{livres} et \texttt{emprunts}.
+
+\item liste des mots clés (sans doublon) emprunté par X $\rightarrow$ enjeux sociétaux.
 
 \item la fonction \texttt{XX} qui affiche la fiche d'identité d'un usager sous la forme suivante (le chiffre entre parenthèses indique l'identifiant du livre)~:\\
 \begin{verbatim}
@@ -221,7 +228,7 @@ Les fonctions ci-dessous vont requérir de croiser l'information de trois listes
 
 \begin{itemize}
 
-\item (bonus) le nombre max de livres empruntés en même temps par quelqu'un
+\item (bonus) le nombre max de livres empruntés en même temps par quelqu'un.
 
 \end{itemize}
 
