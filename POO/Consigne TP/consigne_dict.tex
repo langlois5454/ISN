@@ -1,0 +1,219 @@
+\documentclass[10pt,a4paper]{sujets-exercices}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[left=2.5cm,right=2.5cm,top=2cm,bottom=2cm]{geometry}
+
+\iutset{%
+  type={tp},%
+  lieu={ESPE de Lorraine},%
+  cours={Formation ISN, niveau 2},%
+  annee={2018--2019},%
+  titre={Système d'information : bibliothèque},%
+  numero={1}%
+}
+
+\renewcommand{\FrenchLabelItem}{\textbullet}
+
+\begin{document}
+
+%\title{Système d'information~: bibliothèque}
+%\author{Langlois David, david.langlois@univ-lorraine.fr\\Parmentier Yannick, yannick.parmentier@univ-lorraine.fr}
+%\maketitle
+
+"Le système d'information (SI) est un ensemble organisé de ressources qui permet de collecter, stocker, traiter et distribuer de l'information" (source~: wikipedia).
+
+Cette activité de programmation va consister à programmer des fonctions de manipulation des données d'une bibliothèque. Le sujet propose une modélisation de l'information sous la forme de \emph{structures} Python (listes, dictionnaires) qu'il faudra manipuler.
+
+\section{Objectifs pédagogiques}
+
+L'objectif de ce TP est triple :
+
+\begin{itemize}
+\item Se remémorer tous vos acquis en python via la manipulation de fonctions, de listes, de dictionnaires, de fichiers texte.
+\item Manipuler et modéliser des entités comme des \emph{auteurs}, des \emph{livres}, des \emph{emprunts} afin de vous préparer à la structuration d'un programme en objets.
+\item Développer le début d'un système d'information de médiathèque afin de vous préparer à la modélisation d'un tel système sous la forme d'une base de données
+\end{itemize}
+
+\section{Le système d'information}
+
+Nous allons manipuler les informations nécessaires à une médiathèque.
+
+Un \textbf{usager} est décrit par : 
+
+\begin{itemize}
+\item Un identifiant (chaîne alphanumérique)
+\item Un nom (chaîne de caractères)
+\item Un prénom (chaîne de caractères)
+\item Une date de naissance (une chaîne de caractère de la forme "JJ/MM/AAAA")
+\item Les emprunts (une liste d'identifiants d'emprunts, voir description des emprunts ci-dessous)
+\end{itemize}
+
+Exemple~:
+{\small
+\begin{verbatim}
+       id:                "user1", 
+       nom:               "Nonyme", 
+       prénom:            "Alphonse", 
+       date de naissance: "01/01/2003", 
+       livres empruntés : 1,2,4
+\end{verbatim}
+}
+
+%Les usagers sont stockés dans une liste.
+
+Un \textbf{livre} de la bibliothèque est décrit par : 
+
+\begin{itemize}
+\item Un identifiant (chaîne alphanumérique)
+\item Un titre (chaîne de caractères)
+\item Un auteur (chaîne de caractères)
+\item Des mots-clés (une liste de chaînes de caractères)
+\end{itemize}
+
+Exemple~:
+{\small
+\begin{verbatim}
+       id:       1,
+       titre:    "Nana",
+       auteur:   "Zola Emile",
+       mots-clés:"Drame","Classique","Troisième Empire"
+\end{verbatim}
+}
+
+Un \textbf{emprunt} est décrit par :
+
+\begin{itemize}
+\item Un identifiant (chaîne alphanumérique)
+\item L'identifiant du livre emprunté (chaîne alphanumérique) ; cet identifiant doit se retrouver dans la liste des livres
+\item La date de début d'emprunt (une chaîne de caractère de la forme "JJ/MM/AAAA")
+\item La date de retour attendue du livre (une chaîne de caractères de la forme "JJ/MM/AAAA")
+\item La date effective de retour du livre (une chaîne de caractères de la forme "JJ/MM/AAAA" si le livre a été rendu, \texttt{Néant} sinon)
+\end{itemize}
+
+Exemple~:
+{\small
+\begin{verbatim}
+       id:      "emprunt_4",
+       livre:   3,
+       début:   "01/01/2015",
+       attendu: "01/02/2015",
+       retour:  "15/01/2015"
+\end{verbatim}
+}
+
+%Les emprunts de la bibliothèque sont stockés sous la forme d'une liste.
+L'historique des emprunts est conservé sans nettoyage (pour pouvoir faire des statistiques)~: en d'autres termes, un livre rendu voit la date de retour effective mise à jour, mais l'emprunt ne disparaît pas de la liste. Le lien entre un emprunt et l'emprunteur se fait par la liste des usagers (rappel~: chaque usager comprend une information sur la liste de ses emprunts)
+
+Les divers identifiants (d'usager, de livre, d'emprunt) permettent d'identifier de manière unique ce à quoi ils se réfèrent, et permettent de faire le lien entre les trois listes. 
+
+\section{Ce qui vous est donné}
+
+Vous avez à disposition deux fichiers Python~:
+
+\begin{itemize}
+\item \texttt{utils.py} : définit deux fonctions sur les dates, qui vous seront utiles. Remarquez l'utilisation de la librairie puissante \texttt{datetime}
+\item \texttt{mediatheque\_fichier0.py} : ce fichier contient le programme principal de votre application. C'est à partir de ce fichier que vous allez travailler. 
+\end{itemize}
+
+\section{Travail à faire}
+
+\exercice{Conception du système d'information}
+
+Proposez des structures de données permettant de manipuler les différentes informations contenues dans le système d'information de la médiathèque (usagers, livres, emprunts). Motivez votre choix.
+
+\exercice{Chargement des informations de la médiathèque}
+
+On suppose que les données du système d'information sont disponibles via les fichiers CSV suivants (le séparateur étant le caractère "\verb!;!") : 
+
+\begin{itemize}
+\item \texttt{usagers.csv}~: contient une ligne par usager. Chaque ligne comprend 5 colonnes~: identifiant, nom, prénom, date de naissance, historique des emprunts
+\item \texttt{livres.csv}~: contient une ligne par livre. Chaque ligne comprend 4 colonnes~: identifiant, titre, nom de l'auteur, liste de mots-clés. Si le livre est associé à moins de 3 mots-clés, le champ correspondant est remplacé par \texttt{Néant}.
+\item \texttt{emprunts.csv}~: contient une ligne par emprunt. Chaque ligne comprend 5 colonnes~: identifiant de l'emprunt, identifiant du livre emprunté, date d'emprunt, date attendue de retour, date de retour effective. Si le livre n'a pas encore été rendu, la dernière colonne contient \texttt{Néant}. 
+%\item \texttt{emprunts\_usagers.csv}~: c'est ce fichier qui fait le lien entre les usagers et les emprunts. Le fichier contient une ligne par association usager-emprunt. Chaque ligne comprend 2 colonnes~: identifiant de l'usager, identifiant de l'emprunt.
+\end{itemize}
+
+Dans ce qui suit, nous supposons que les informations du système sont représentées par des \emph{structures de données} Python de type \emph{dictionnaire de dictionnaires}.
+
+Ainsi, les usagers sont représentés par un dictionnaire associant à un identifiant d'usager un dictionnaire contenant le nom, prénom, date de naissance et historique des emprunts de l'usager.
+
+Les livres sont représentés par un dictionnaire associant à un identifiant de livre un dictionnaire contenant le titre, l'auteur, et les mots clés du livre.
+
+Les emprunts sont représentés par un dictionnaire associant à un identifiant d'emprunt un dictionnaire contenant l'identifiant du livre emprunté, la date d'emprunt, la date attendue de retour, la date de retour effective de l'emprunt.
+
+\begin{enumerate}
+\item Définissez et affectez trois variables \texttt{dict\_usagers}, \texttt{dict\_livres} et \texttt{dict\_emprunts} contenant les exemples de données mentionnées plus haut dans cet énoncé.
+\item Écrivez trois fonctions appelés respectivement \texttt{charger\_usagers}, \texttt{charger\_livres} et \texttt{charger\_emprunts} prenant en paramètre un chemin vers un fichier CSV et retournant un dictionnaire.
+\end{enumerate}
+
+\exercice{Fonctionnalités de base}
+
+Pour chacune des questions ci-dessous, prenez soin de bien commenter votre fonction (notamment en termes d'entrées / sortie), et de l'accompagner de tests.
+
+\begin{enumerate}
+
+\item Écrivez une fonction \texttt{changer\_nom\_usager(dict\_usagers,id\_usager,nv\_nom)} qui modifie le nom de l'usager d'identifiant \texttt{id\_usager}. La liste des usagers est donnée dans \texttt{dict\_usagers}. Le nouveau nom est donné par \texttt{nv\_nom}.
+
+\item Écrivez une fonction \texttt{ajouter\_mot\_cle(dict\_livres,id\_livre,nv\_mot\_cle)} qui ajoute le mot clé \texttt{nv\_mot\_cle} au livre d'identifiant \texttt{id\_livre}. La liste des livres est donnée par \texttt{dict\_livres}.
+
+\item la fonction \texttt{lister\_usagers\_majeurs(usagers)} qui renvoie la liste des identifiants des usagers qui sont majeurs (en fonction de la date au moment où la fonction est exécutée). \texttt{usagers} donne la liste des usagers. Pour déterminer si un usager est majeur, vous disposez d'une fonction \texttt{majeur} dans le fichier \texttt{utils.py}.
+
+\item Écrivez une fonction \texttt{lister\_pret\_en\_retard()}.
+
+\item Écrivez une fonction \texttt{lister\_livres\_sur\_mot\_cle(dict\_livres,mot\_cle)} qui renvoie la liste des identifiants de tous les livres associés au mot clé \texttt{mot\_cle}. La liste des livres est donnée par \texttt{dict\_livres}.
+
+\end{enumerate}
+
+\exercice{Fonctionnalités avancées}
+
+Les fonctions ci-dessous vont requérir de croiser l'information de plusieurs listes.
+
+\begin{enumerate}
+
+\item Écrivez une fonction qui retourne la liste des titres des livres actuellement empruntés (croisement de 2 listes).
+
+\item Écrivez une fonction \texttt{livre\_plus\_recemment\_rendu(dict\_emprunts,dict\_usagers, id\_usager)} qui renvoie l'identifiant du livre le plus récemment rendu par l'usager d'identifiant \texttt{id\_usager}. Si l'usager n'a jamais rendu de livre, la fonction renvoie \texttt{None}. La liste des usagers est donnée pas \texttt{dict\_usagers}. La liste des emprunts est donnée par \texttt{dict\_emprunts}.
+
+\item Écrivez une fonction qui retourne la liste des personnes ayant emprunté un livre d'un identifiant \texttt{id\_livre} donné (croisement de 2 listes).
+
+\item Écrivez une fonction qui retourne la liste des personnes ayant emprunté le livre de titre \texttt{titre} donné (croisement de 3 listes).
+
+\item Écrivez une fonction \texttt{usagers\_ayant\_emprunte\_livre(dict\_usagers,dict\_livres,\\ dict\_emprunts, titre)} qui renvoie la liste des usagers ayant emprunté le livre de titre \texttt{titre}. Les listes des usagers, des livres et des emprunts sont donnés respectivement par \texttt{dict\_usagers}, \texttt{dict\_livres} et \texttt{dict\_emprunts}.
+
+\item Écrivez une fonction qui retourne la liste des mots clés (sans doublon) des livres empruntés par un usager d'identifiant donné $\rightarrow$ enjeux sociétaux.
+
+\item Écrivez une fonction \texttt{afficher} qui affiche la fiche d'identité d'un usager sous la forme suivante (le chiffre entre parenthèses indique l'identifiant du livre)~:\\
+\begin{verbatim}
+   Nonyme Albert
+   Naissance : XX/XX/XXXX
+   Livres actuellement empruntés :
+      Les Misérables (4), retour attendu le XX/XX/XXXX
+      Tintin et les Picaros (18), retour attendu le XX/XX/XXXX
+      Poil de Carotte (54), retour attendu le XX/XX/XXXX
+\end{verbatim}
+
+\end{enumerate}
+
+\exercice{Bonus}
+
+Écrivez une fonction qui retourne le nombre maximal de livres empruntés en même temps par quelqu'un.
+
+
+\section{Analyse critique du système d'information}
+
+Dans notre système d'information de la médiathèque on accède aux éléments d'information sur un usager via l'opérateur \verb![ ]!. 
+
+Cette manière de gérer l'accès aux données peut poser plusieurs problèmes~:
+
+\begin{itemize}
+\item \textbf{Manque de lisibilité}~: pour accéder au nom d'un usager donné \texttt{u}, il faut écrire 
+\begin{center}
+	\texttt{dict\_usagers[u][nom]}
+\end{center}
+\item \textbf{Évolutivité compliquée}~: on peut vouloir modifier le système d'information (par exemple ajouter l'adresse et le numéro de téléphone d'un usager ). De tels changements imposent de revoir plusieurs fonctions du système d'information, potentiellement disséminées dans plusieurs modules.
+\end{itemize}
+
+Dans le prochain TP, nous allons introduire le concept d'objets et nous verrons comment \emph{encapsuler} les informations du système d'information et les opérations autorisées sur ce système.
+
+\end{document}
+
