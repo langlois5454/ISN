@@ -208,7 +208,7 @@ Cette manière de gérer l'accès aux données peut poser plusieurs problèmes~:
 \begin{itemize}
 \item \textbf{Manque de lisibilité}~: pour accéder au nom d'un usager donné \texttt{u}, il faut écrire 
 \begin{center}
-	\texttt{dict\_usagers[u][nom]}
+	\texttt{dict\_usagers[u]['nom']}
 \end{center}
 \item \textbf{Évolutivité compliquée}~: on peut vouloir modifier le système d'information (par exemple ajouter l'adresse et le numéro de téléphone d'un usager ). De tels changements imposent de revoir plusieurs fonctions du système d'information, potentiellement disséminées dans plusieurs modules.
 \end{itemize}
