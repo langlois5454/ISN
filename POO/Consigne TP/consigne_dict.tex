@@ -32,12 +32,12 @@ L'objectif de ce TP est triple :
 \begin{itemize}
 \item Se remémorer tous vos acquis en python via la manipulation de fonctions, de listes, de dictionnaires, de fichiers texte.
 \item Manipuler et modéliser des entités comme des \emph{auteurs}, des \emph{livres}, des \emph{emprunts} afin de vous préparer à la structuration d'un programme en objets.
-\item Développer le début d'un système d'information de médiathèque afin de vous préparer à la modélisation d'un tel système sous la forme d'une base de données
+\item Développer le début d'un système d'information afin de vous préparer à la modélisation d'un tel système sous la forme d'une base de données
 \end{itemize}
 
 \section{Le système d'information}
 
-Nous allons manipuler les informations nécessaires à une médiathèque.
+Nous allons manipuler les informations nécessaires à la gestion d'une bibliothèque.
 
 Un \textbf{usager} est décrit par : 
 
@@ -56,7 +56,7 @@ Exemple~:
        nom:               "Nonyme", 
        prénom:            "Alphonse", 
        date de naissance: "01/01/2003", 
-       livres empruntés : 1,2,4
+       emprunts : "emprunt\_1","emprunt\_2","emprunt\_4"
 \end{verbatim}
 }
 
@@ -74,10 +74,10 @@ Un \textbf{livre} de la bibliothèque est décrit par :
 Exemple~:
 {\small
 \begin{verbatim}
-       id:       1,
+       id:       "1",
        titre:    "Nana",
        auteur:   "Zola Emile",
-       mots-clés:"Drame","Classique","Troisième Empire"
+       mots-clés: "Drame","Classique","Troisième Empire"
 \end{verbatim}
 }
 
@@ -95,7 +95,7 @@ Exemple~:
 {\small
 \begin{verbatim}
        id:      "emprunt_4",
-       livre:   3,
+       livre:   "3",
        début:   "01/01/2015",
        attendu: "01/02/2015",
        retour:  "15/01/2015"
@@ -128,7 +128,7 @@ On suppose que les données du système d'information sont disponibles via les f
 
 \begin{itemize}
 \item \texttt{usagers.csv}~: contient une ligne par usager. Chaque ligne comprend 5 colonnes~: identifiant, nom, prénom, date de naissance, historique des emprunts
-\item \texttt{livres.csv}~: contient une ligne par livre. Chaque ligne comprend 4 colonnes~: identifiant, titre, nom de l'auteur, liste de mots-clés. Si le livre est associé à moins de 3 mots-clés, le champ correspondant est remplacé par \texttt{Néant}.
+\item \texttt{livres.csv}~: contient une ligne par livre. Chaque ligne comprend 4 colonnes~: identifiant, titre, nom de l'auteur, liste de mots-clés.
 \item \texttt{emprunts.csv}~: contient une ligne par emprunt. Chaque ligne comprend 5 colonnes~: identifiant de l'emprunt, identifiant du livre emprunté, date d'emprunt, date attendue de retour, date de retour effective. Si le livre n'a pas encore été rendu, la dernière colonne contient \texttt{Néant}. 
 %\item \texttt{emprunts\_usagers.csv}~: c'est ce fichier qui fait le lien entre les usagers et les emprunts. Le fichier contient une ligne par association usager-emprunt. Chaque ligne comprend 2 colonnes~: identifiant de l'usager, identifiant de l'emprunt.
 \end{itemize}
@@ -143,7 +143,7 @@ Les emprunts sont représentés par un dictionnaire associant à un identifiant 
 
 \begin{enumerate}
 \item Définissez et affectez trois variables \texttt{dict\_usagers}, \texttt{dict\_livres} et \texttt{dict\_emprunts} contenant les exemples de données mentionnées plus haut dans cet énoncé.
-\item Écrivez trois fonctions appelés respectivement \texttt{charger\_usagers}, \texttt{charger\_livres} et \texttt{charger\_emprunts} prenant en paramètre un chemin vers un fichier CSV et retournant un dictionnaire.
+\item Écrivez trois fonctions appelées respectivement \texttt{charger\_usagers}, \texttt{charger\_livres} et \texttt{charger\_emprunts} prenant en paramètre un chemin vers un fichier CSV et retournant un dictionnaire.
 \end{enumerate}
 
 \exercice{Fonctionnalités de base}
@@ -158,7 +158,7 @@ Pour chacune des questions ci-dessous, prenez soin de bien commenter votre fonct
 
 \item la fonction \texttt{lister\_usagers\_majeurs(usagers)} qui renvoie la liste des identifiants des usagers qui sont majeurs (en fonction de la date au moment où la fonction est exécutée). \texttt{usagers} donne la liste des usagers. Pour déterminer si un usager est majeur, vous disposez d'une fonction \texttt{majeur} dans le fichier \texttt{utils.py}.
 
-\item Écrivez une fonction \texttt{lister\_pret\_en\_retard()}.
+\item Écrivez une fonction \texttt{lister\_pret\_en\_retard(dict\_emprunts)} qui renvoie la liste des identifiants des emprunts en retard. La liste des emprunts est donnée par \texttt{dict\_emprunts}.
 
 \item Écrivez une fonction \texttt{lister\_livres\_sur\_mot\_cle(dict\_livres,mot\_cle)} qui renvoie la liste des identifiants de tous les livres associés au mot clé \texttt{mot\_cle}. La liste des livres est donnée par \texttt{dict\_livres}.
 
