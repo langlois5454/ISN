@@ -13,7 +13,7 @@
 ##Exos
 ##Y- charger à partir de fichier (csv) x3
 ##D- changer le nom d'un usager à partir de son id
-##Y- ajoyter un mot clé à un livre
+##Y- ajouter un mot clé à un livre
 ##D- les majeurs (1 liste)
 ##Y- les en retard (1 liste)
 ##D- les livres sur un mot clé en paramètre (1 liste)
@@ -77,25 +77,45 @@ def charger_emprunts(nom_fichier):
     f.close()
     return retour
 
-def changer_nom_usager(liste_usagers,id_usager,nv_nom):
+def changer_nom_usager(dict_usagers,id_usager,nv_nom):
     """
     change le nom de l'usage d'id id_usager en nv_nom
     """
-    liste_usagers[id_usager]['nom'] = nv_nom
-    
-def lister_usagers_majeurs(usagers):
+    dict_usagers[id_usager]['nom'] = nv_nom
+
+def ajouter_mot_cle(dict_livres,id_livre,nv_mot_cle):
+    """
+    ajoute le mot cle nv_mot_cle au livre d'id id_livre
+    """
+    dict_livres[id_livre]['mots_cles'].append(nv_mot_cle)
+
+def lister_usagers_majeurs(dict_usagers):
     """
     retourne la liste des identifiants des usagers
     majeurs
     """
-    return [u for u,v in usagers.items() if utils.majeur(v['date_naissance'])]
+    return [u for u,v in dict_usagers.items() if utils.majeur(v['date_naissance'])]
         
-def lister_livres_sur_mot_cle(livres,mot_cle):
+def lister_prets_en_retard(dict_emprunts):
+    """
+    retourne la liste des identifiants des prêts en retard
+    """
+    auj = datetime.today()
+    sauj= str(auj.day) + "/" + str(auj.month) + "/" + str(auj.year)
+    return [e for e,f in dict_emprunts.items() if f['dateRetour'] == None and utils.date_posterieure(sauj,f['dateAttendu'])]
+
+def lister_livres_sur_mot_cle(dict_livres,mot_cle):
     """
     retourne la liste des identifiants des livres
     associés au mot-clé mot_cle
     """
-    return [l for l,m in livres.items() if mot_cle in m['mots_cles']]
+    return [l for l,m in dict_livres.items() if mot_cle in m['mots_cles']]
+
+def livres_empruntes(dict_emprunts,dict_livres):
+    """
+    retourne la liste des titres livres en cours d'emprunt
+    """
+    return [dict_livres[f['livre']]['titre'] for f in dict_emprunts.values() if f['dateRetour'] == None]
 
 def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
     """
@@ -106,19 +126,34 @@ def livre_plus_recemment_rendu(emprunts,liste_usagers,id_usager):
     liste_emprunts_tries = sorted(liste_emprunts, key=lambda e: datetime.strptime(emprunts[e]['dateEmprunt'], '%d/%m/%Y'), reverse=True)
     return liste_emprunts_tries[0]
 
+## liste des personnes ayant emprunté le livre d'id X               
+def usagers_emprunts_id_livre(dict_usagers,dict_emprunts,id_livre):
+    """
+    retourne la liste des id des usagers ayant emprunté le livre d'id \'id_livre\'
+    """
+    ## recherche des emprunts
+    emps = [e for e in dict_emprunts.keys() if dict_emprunts[e]['livre'] == id_livre]
+    ## recherche des usagers
+    usgs = []
+    for u in dict_usagers: #equivalent a usagers.keys()
+        for e in dict_usagers[u]['emprunts']:
+            if e in emps:
+                usgs.append(u)
+    return list(set(usgs)) ## pour supprimer les doublons
+
 ## liste des personnes ayant emprunté le livre de titre X               
-def liste_usagers_ayant_emprunte_livre_titre_X(usagers,livres,emprunts,titre):
+def usagers_emprunts_titre_livre(dict_usagers,dict_emprunts,dict_livres,titre):
     """
     retourne la liste des id des usagers ayant emprunté le livre de titre \'titre\'
     """
     ## recherche du livre
-    id_livre = [l for l in livres.keys() if livres[l]['titre'] == titre][0]
+    id_livre = [l for l in dict_livres.keys() if dict_livres[l]['titre'] == titre][0]
     ## recherche des emprunts
-    emps = [e for e in emprunts.keys() if emprunts[e]['livre'] == id_livre]
+    emps = [e for e in dict_emprunts.keys() if dict_emprunts[e]['livre'] == id_livre]
     ## recherche des usagers
     usgs = []
-    for u in usagers: #equivalent a usagers.keys()
-        for e in usagers[u]['emprunts']:
+    for u in dict_usagers: #equivalent a usagers.keys()
+        for e in dict_usagers[u]['emprunts']:
             if e in emps:
                 usgs.append(u)
     return list(set(usgs)) ## pour supprimer les doublons
@@ -130,11 +165,22 @@ def liste_mots_cles(usagers, emprunts, livres, idusager):
         motscles.extend(livres[emprunts[emp]['livre']]['mots_cles'])
     return list(set(motscles))
 
-##DY- (bonus) le nombre max de livres empruntés en même temps par quelqu'un
-
+##DY- (bonus) le nombre max de livres empruntés actuellement
+def max_emprunts_actuellement(dict_usagers,dict_emprunts):
+    ## recherche des emprunts
+    emps = [e for e in dict_emprunts.keys() if dict_emprunts[e]['dateRetour'] == None]
+    ## recherche du nombre de livres par utilisateur
+    users = []
+    for u,v in dict_usagers.items():
+        nblivres = 0
+        for e in v['emprunts']:
+            if e in emps:
+                nblivres += 1
+        users.append((u,nblivres))
+    return sorted(users, key=lambda x:x[1], reverse=True)[0][0]
 
 ##Y- fiche identité usager (3 listes)
-def fiche(usagers, emprunts, livres, idusager):
+def afficher(usagers, emprunts, livres, idusager):
     res = ''
     res += usagers[idusager]['nom'] + '\n'
     res += usagers[idusager]['prenom'] + '\n'
@@ -182,14 +228,25 @@ if __name__ == '__main__':
     changer_nom_usager(usagers,'user2','Bine')
     print(usagers)
 
+    ajouter_mot_cle(livres,2,"toto")
+    print(livres)
+    
     print(lister_usagers_majeurs(usagers))
+
+    print(lister_prets_en_retard(emprunts))
 
     print(lister_livres_sur_mot_cle(livres,"Policier"))
 
+    print(livres_empruntes(emprunts,livres))
+
     print(livre_plus_recemment_rendu(emprunts,usagers,"user1"))
 
-    print(liste_usagers_ayant_emprunte_livre_titre_X(usagers,livres,emprunts,"Le chien de Baskerville"))
+    print(usagers_emprunts_id_livre(usagers,emprunts,4))
+
+    print(usagers_emprunts_titre_livre(usagers,emprunts,livres,"Le chien de Baskerville"))
 
     print(liste_mots_cles(usagers,emprunts,livres,"user1"))
 
-    print(fiche(usagers,emprunts,livres,"user1"))
+    print(afficher(usagers,emprunts,livres,"user1"))
+
+    print(afficher(usagers,emprunts,livres,max_emprunts_actuellement(usagers,emprunts)))

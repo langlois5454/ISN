@@ -77,7 +77,7 @@ Exemple~:
        id:       "1",
        titre:    "Nana",
        auteur:   "Zola Emile",
-       mots-clés: ["Drame","Classique","Troisième Empire"]
+       mots-clés: "Drame","Classique","Troisième Empire"
 \end{verbatim}
 }
 
@@ -120,7 +120,7 @@ Vous avez à disposition deux fichiers Python~:
 
 \exercice{Conception du système d'information}
 
-Proposez des structures de données permettant de manipuler les différentes informations contenues dans le système d'information de la médiathèque (usagers, livres, emprunts). Motivez votre choix.
+Quelles structures de données proposez vous pour manipuler les différentes informations contenues dans le système d'information de la médiathèque (usagers, livres, emprunts) ? Pourquoi ?
 
 \exercice{Chargement des informations de la médiathèque}
 
@@ -148,19 +148,19 @@ Les emprunts sont représentés par un dictionnaire associant à un identifiant 
 
 \exercice{Fonctionnalités de base}
 
-Pour chacune des questions ci-dessous, prenez soin de bien commenter votre fonction (notamment en termes d'entrées / sortie), et de l'accompagner de tests.
+Pour chacune des questions ci-dessous, prenez soin de bien commenter votre fonction (notamment en termes d'entrées / sortie), et de \textbf{l'accompagner de tests}.
 
 \begin{enumerate}
 
-\item Écrivez une fonction \texttt{changer\_nom\_usager(dict\_usagers,id\_usager,nv\_nom)} qui modifie le nom de l'usager d'identifiant \texttt{id\_usager}. La liste des usagers est donnée dans \texttt{dict\_usagers}. Le nouveau nom est donné par \texttt{nv\_nom}.
+\item Écrivez une fonction $$\mbox{\texttt{changer\_nom\_usager(dict\_usagers,id\_usager,nv\_nom)}}$$ qui modifie le nom de l'usager d'identifiant \texttt{id\_usager}. La liste des usagers est donnée dans \texttt{dict\_usagers}. Le nouveau nom est donné par \texttt{nv\_nom}.
 
-\item Écrivez une fonction \texttt{ajouter\_mot\_cle(dict\_livres,id\_livre,nv\_mot\_cle)} qui ajoute le mot clé \texttt{nv\_mot\_cle} au livre d'identifiant \texttt{id\_livre}. La liste des livres est donnée par \texttt{dict\_livres}.
+\item Écrivez une fonction $$\mbox{\texttt{ajouter\_mot\_cle(dict\_livres,id\_livre,nv\_mot\_cle)}}$$ qui ajoute le mot clé \texttt{nv\_mot\_cle} au livre d'identifiant \texttt{id\_livre}. La liste des livres est donnée par \texttt{dict\_livres}.
 
-\item la fonction \texttt{lister\_usagers\_majeurs(dict\_usagers)} qui renvoie la liste des identifiants des usagers qui sont majeurs (en fonction de la date au moment où la fonction est exécutée). \texttt{dict\_usagers} donne le dictionnaire des usagers. Pour déterminer si un usager est majeur, vous disposez d'une fonction \texttt{majeur} dans le fichier \texttt{utils.py}.
+\item Écrivez une fonction $$\mbox{\texttt{lister\_usagers\_majeurs(dict\_usagers)}}$$ qui renvoie la liste des identifiants des usagers qui sont majeurs (en fonction de la date au moment où la fonction est exécutée). \texttt{dict\_usagers} donne le dictionnaire des usagers. Pour déterminer si un usager est majeur, vous disposez d'une fonction \texttt{majeur} dans le fichier \texttt{utils.py}.
 
-\item Écrivez une fonction \texttt{lister\_prets\_en\_retard(dict\_emprunts)} qui renvoie la liste des identifiants des emprunts en retard. La liste des emprunts est donnée par \texttt{dict\_emprunts}.
+\item Écrivez une fonction $$\mbox{\texttt{lister\_prets\_en\_retard(dict\_emprunts)}}$$ qui renvoie la liste des identifiants des emprunts en retard. La liste des emprunts est donnée par \texttt{dict\_emprunts}.
 
-\item Écrivez une fonction \texttt{lister\_livres\_sur\_mot\_cle(dict\_livres,mot\_cle)} qui renvoie la liste des identifiants de tous les livres associés au mot clé \texttt{mot\_cle}. La liste des livres est donnée par \texttt{dict\_livres}.
+\item Écrivez une fonction $$\mbox{\texttt{lister\_livres\_sur\_mot\_cle(dict\_livres,mot\_cle)}}$$ qui renvoie la liste des identifiants de tous les livres associés au mot clé \texttt{mot\_cle}. La liste des livres est donnée par \texttt{dict\_livres}.
 
 \end{enumerate}
 
@@ -170,19 +170,19 @@ Les fonctions ci-dessous vont requérir de croiser l'information de plusieurs li
 
 \begin{enumerate}
 
-\item Écrivez une fonction \texttt{liste\_livres\_empruntes(dict\_emprunts,dict\_livres)} qui retourne la liste des titres des livres actuellement empruntés (croisement de 2 listes). Le dictionnaire des emprunts est donné par \texttt{dict\_emprunts} et celui des livres est donné par \texttt{dict\_livres}.
+\item Écrivez une fonction $$\mbox{\texttt{livres\_empruntes(dict\_emprunts,dict\_livres)}}$$ qui retourne la liste des titres des livres actuellement empruntés (croisement de 2 listes). Le dictionnaire des emprunts est donné par \texttt{dict\_emprunts} et celui des livres est donné par \texttt{dict\_livres}.
 
-\item Écrivez une fonction \texttt{livre\_plus\_recemment\_rendu(dict\_emprunts,dict\_usagers, id\_usager)} qui renvoie l'identifiant du livre le plus récemment rendu par l'usager d'identifiant \texttt{id\_usager}. Si l'usager n'a jamais rendu de livre, la fonction renvoie \texttt{None}. La liste des usagers est donnée pas \texttt{dict\_usagers}. La liste des emprunts est donnée par \texttt{dict\_emprunts}.
+\item Écrivez une fonction $$\mbox{\texttt{livre\_plus\_recemment\_rendu(dict\_emprunts,dict\_usagers,id\_usager)}}$$ qui renvoie l'identifiant du livre rendu le plus récemment par l'usager \texttt{id\_usager}. Si l'usager n'a jamais rendu de livre, la fonction renvoie \texttt{None}. La liste des usagers est donnée pas \texttt{dict\_usagers}. La liste des emprunts est donnée par \texttt{dict\_emprunts}.
 
-\item Écrivez une fonction \\ \texttt{liste\_usagers\_emprunt\_id\_livre(dict\_usagers,dict\_emprunts,id\_livre)} qui retourne la liste des identifiants des usagers ayant emprunté un livre donné (croisement de 2 listes). Le livre ciblé est donné par son identifiant \texttt{id\_livre}. Le dictionnaire des emprunts est donné par \texttt{dict\_emprunts} et celui des usagers est donné par \texttt{dict\_usagers}.
+\item Écrivez une fonction $$\mbox{\texttt{usagers\_emprunt\_id\_livre(dict\_usagers,dict\_emprunts,id\_livre)}}$$ qui retourne la liste des identifiants des usagers ayant emprunté un livre donné (croisement de 2 listes). Le livre ciblé est donné par son identifiant \texttt{id\_livre}. Le dictionnaire des emprunts est donné par \texttt{dict\_emprunts} et celui des usagers est donné par \texttt{dict\_usagers}.
 
-\item Écrivez une fonction \\ \texttt{liste\_usagers\_emprunt\_titre\_livre(dict\_usagers,dict\_emprunts,\\dict\_livre,titre)} qui retourne la liste des identifiants d'usagers ayant emprunté le livre de titre \texttt{titre} (croisement de 3 listes). Le dictionnaire des emprunts est donné par \texttt{dict\_emprunts}, celui des usagers est donné par \texttt{dict\_usagers} et celui des livres par \texttt{dict\_livres}.
+\item Écrivez une fonction $$\mbox{\texttt{usagers\_emprunt\_titre\_livre(dict\_usagers,dict\_emprunts,dict\_livre,titre)}}$$ qui retourne la liste des identifiants d'usagers ayant emprunté le livre de titre \texttt{titre} (croisement de 3 listes). Le dictionnaire des emprunts est donné par \texttt{dict\_emprunts}, celui des usagers est donné par \texttt{dict\_usagers} et celui des livres par \texttt{dict\_livres}.
 
 %\item Écrivez une fonction \texttt{usagers\_ayant\_emprunte\_livre(dict\_usagers,dict\_livres,\\ dict\_emprunts, titre)} qui renvoie la liste des usagers ayant emprunté le livre de titre \texttt{titre}. Les listes des usagers, des livres et des emprunts sont donnés respectivement par \texttt{dict\_usagers}, \texttt{dict\_livres} et \texttt{dict\_emprunts}.
 
-\item Écrivez une fonction \\ \texttt{liste\_mots\_cles(dict\_usagers,dict\_emprunts,dict\_livres,id\_usager)} qui retourne la liste des mots clés (sans doublon) des livres empruntés par un usager d'identifiant donné. Notez que le croisement de telles informations permettrait de guider l'usager pour de futures lectures, mais que cela peut être ressenti comme intrusif.
+\item Écrivez une fonction $$\mbox{\texttt{liste\_mots\_cles(dict\_usagers,dict\_emprunts,dict\_livres,id\_usager)}}$$ qui retourne la liste des mots clés (sans doublon) des livres empruntés par un usager d'identifiant donné. Notez que le croisement de telles informations permettrait de guider l'usager pour de futures lectures, mais que cela peut être ressenti comme intrusif.
 
-\item Écrivez une fonction \texttt{afficher(dict\_usagers,dict\_emprunts,dict\_livres,id\_usager)} qui affiche la fiche d'identité d'un usager sous la forme suivante (le chiffre entre parenthèses indique l'identifiant du livre)~:\\
+\item Écrivez une fonction $$\mbox{\texttt{afficher(dict\_usagers,dict\_emprunts,dict\_livres,id\_usager)}}$$ qui affiche la fiche d'identité d'un usager sous la forme suivante (le chiffre entre parenthèses indique l'identifiant du livre)~:\\
 \begin{verbatim}
    Nonyme Albert
    Naissance : JJ/MM/AAAA
@@ -196,17 +196,20 @@ Les fonctions ci-dessous vont requérir de croiser l'information de plusieurs li
 
 \exercice{Bonus}
 
-Écrivez une fonction qui retourne le nombre maximal de livres empruntés en même temps par quelqu'un. Plus précisément, il s'agit de repérer l'usager qui a actuellement chez lui le plus de livres, et de renvoyer cette valeur.
+\begin{enumerate}
+\item Écriver une fonction $$\mbox{\texttt{max\_emprunts\_actuellement(dict\_usagers,dict\_emprunts)}}$$ qui retourne les informations de l'usager qui a le plus d'emprunts actuellement.
+\item Écrivez une fonction $$\mbox{\texttt{max\_emprunts(dict\_emprunts)}}$$ qui retourne les informations de l'usager ayant eu le plus de livres empruntés en même temps.
+\end{enumerate}
 
 
 \section{Analyse critique du système d'information}
 
-Dans notre système d'information de la médiathèque on accède aux éléments d'information sur un usager via l'opérateur \verb![ ]!. 
+Dans notre système d'information de la médiathèque on accède aux éléments d'information sur un usager / livre / emprunt via l'opérateur \verb![ ]!. 
 
 Cette manière de gérer l'accès aux données peut poser plusieurs problèmes~:
 
 \begin{itemize}
-\item \textbf{Manque de lisibilité}~: pour accéder au nom d'un usager donné \texttt{u}, il faut écrire 
+\item \textbf{Manque de lisibilité}~: pour accéder au nom d'un usager donné d'identifiant \texttt{u}, il faut écrire 
 \begin{center}
 
 	\texttt{dict\_usagers[u]['nom']}
@@ -214,7 +217,7 @@ Cette manière de gérer l'accès aux données peut poser plusieurs problèmes~:
 \item \textbf{Évolutivité compliquée}~: on peut vouloir modifier le système d'information (par exemple ajouter l'adresse et le numéro de téléphone d'un usager ). De tels changements imposent de revoir plusieurs fonctions du système d'information, potentiellement disséminées dans plusieurs modules.
 \end{itemize}
 
-Dans le prochain TP, nous allons introduire le concept d'objets et nous verrons comment \emph{encapsuler} les informations du système d'information et les opérations autorisées sur ce système.
+Dans le prochain TP, nous allons introduire le concept d'objets et nous verrons comment \emph{encapsuler} les informations du système d'information et les opérations autorisées sur ces informations.
 
 \end{document}
 
