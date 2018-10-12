@@ -1,0 +1,62 @@
+\documentclass{article}
+
+  \usepackage[francais]{babel}
+	\usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+
+\begin{document}
+
+En programmation, l'approche objet consiste à penser le système d'information, ou encore le modèle du monde, sous la forme d'un ensemble d'entités. Chaque entité a ses propres caractéristiques et ses propres fonctionnalités. Chaque entité est maîtresse de son évolution au cours du temps.
+
+Dans le TP Bibliothèque, vous avez manipulé trois types d'entités~: les usagers, les livres, et les emprunts.
+
+Prenons l'exemple des usagers. Chaque usager est défini par les mêmes informations (nom, prénom, date de naissance, liste des emprunts), mais chaque usager a ses propres valeurs pour ces informations. En  plus de ces caractéristiques, un usager est détenteur de plusieurs fonctionnalités comme "emprunter un livre".
+
+Nous allons définir une classe des usagers, qui va déterminer ce qu'est un usager type, une sorte de squelette d'usager, une coquille vide. Il faudra aussi définir comment à partir de cette coquille vide, on construit un usager réel.
+
+Voici votre première classe~:
+
+\begin{verbatim}
+class Usager:
+    def __init__(self,nom,prenom,naissance):
+        self.nom = nom
+        self.prenom = prenom
+        self.date_naissance = naissance
+        self.emprunts = []
+
+\end{verbatim}  
+
+Le code Python ci-dessus définit la classe \texttt{Usager}. Cette définition précise qu'un usager est constitué d'un nom (\texttt{nom}), d'un prénom (\texttt{prenom}), d'une date de naissance (\texttt{date\_naissance}) et de la liste de ses emprunts (\texttt{emprunts}). On appellera \textbf{attribut} chacune de ces caractéristiques. Donc, \texttt{nom}, \texttt{prenom}, \texttt{date\_naissance}, \texttt{emprunts} sont les attributs de la classe \texttt{Usager}.
+
+La classe \texttt{Usager} contient une méthode, qui s'appelle \texttt{\_\_init\_\_}. Cette méthode construit un objet de la classe. Tout classe doit contenir une telle méthode. Le terme \textbf{méthode} fait partie du vocabulaire de l'approche objet~:
+
+\begin{itemize}
+\item Une \textbf{classe} est constituée d'\textbf{attributs} et de \textbf{méthodes}.
+\item Chaque individu représentant de la  classe s'appelle un \textbf{objet}. On dit qu'il s'agit d'une \textbf{instance} de la classe
+\item Pour construire un objet de la classe, il faut un \textbf{constructeur}. En Python, il s'agit de la méthode  \texttt{\_\_init\_\_}. 
+\end{itemize}
+
+La méthode \texttt{\_\_init\_\_} prend en argument au moins \texttt{self}, qui fait référence à l'objet en cours de construction. Ici, la ligne \texttt{self.nom = nom} se lit~: "nom est un attribut de self, et sa valeur initiale est donnée par le contenu de nom, argument de \texttt{\_\_init\_\_}. Comme on le remarque avec la ligne \texttt{self.date\_naissance = naissance}, le nom de l'attribut et celui de l'argument donnant la valeur initiale ne doivent pas nécessairement être les mêmes, mais c'est mieux ainsi pour la lisibilité du code.
+
+Ici, nous n'avons que que définir \textbf{comment} construire un objet de la classe \texttt{Usager}. Reste encore à le construire. Voici le code permettant cela~:
+
+\begin{verbatim}
+   u1 = Usager("Nonyme","Albert","17/09/2000")
+\end{verbatim} 
+
+\texttt{u1} est une variable. Pour construire un objet de la classe \texttt{Usager}, on utilise le nom de la classe comme une fonction en passant des valeurs en suivant la signature (liste des arguments) de la méthode \texttt{\_\_init\_\_}. Attention, en Python, cette dernière phrase est fausse. En effet, la méthode \texttt{\_\_init\_\_} de la classe \texttt{Usager} liste 4 arguments (\texttt{self}, \texttt{nom}, \texttt{prenom}, \texttt{naissance}), mais l'appel n'en donne que 3 (\texttt{nom}, \texttt{prenom}, \texttt{naissance}). En fait, le \texttt{self}, à l'appel du constructeur, est implicite~: au moment de la construction, il est ajouté, et fait référence à l'objet en cours de construction.
+
+Maintenant, l'objet \texttt{u1} est construit, et on peut l'utiliser~:
+
+\begin{verbatim}
+   print(u1.nom)
+   u1.nom = "Toto"
+   print(u1.nom)
+   u1.emprunts.append("23")
+   print(u1.emprunts)
+\end{verbatim} 
+
+\paragraph{Exercice 1}~: Téléchargez dans le cours le fichier \texttt{usager.py}. \'Editez-le et ajoutez l'attribut \texttt{date\_renouvellement}, qui est une date qui définit quand l'abonnement de l'usager se termine. Mettez à jour le constructeur (ajout d'un nouvel argument) ainsi que l'appel dans le test au bas du fichier. Testez.
+
+
+\end{document}
