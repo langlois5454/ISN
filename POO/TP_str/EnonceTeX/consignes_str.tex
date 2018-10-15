@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
+\usepackage{url}
 \usepackage[left=2.5cm,right=2.5cm,top=2cm,bottom=2cm]{geometry}
 
 \iutset{%
@@ -19,17 +20,79 @@
 
 Dans ce TP, nous allons utiliser une \textbf{classe} disponible nativement dans le langage Python : la classe  \texttt{\textbf{str}} (les chaînes de caractères, ou \emph{string} en anglais).
 
-Une classe correspond à \emph{un type de données évolué} (on parle aussi de type complexe) par opposition aux types primitifs tels que les entiers, réels, booléens, etc.
+Une classe correspond à \emph{un type de données évolué} (on parle aussi de type complexe) par opposition aux types \emph{primitifs} tels que les entiers, réels, booléens, etc., dont les valeurs sont généralement atomiques.
 
-Pour utiliser une classe (c'est-à-dire un type de donnée complexe), il faut \emph{instancier} (on parle aussi de \emph{construire}, ce qui revient à déclarer et affecter) un élément du type en question. On peut par exemple construire une chaîne de caractères en utilisant les guillemets simples : $$\mbox{\verb!a = 'toto'!}$$
+Pour utiliser une classe (c'est-à-dire un type de donnée complexe), il faut \emph{instancier} (on dit aussi \emph{construire}, ce qui revient à déclarer et affecter) un élément du type en question. On peut par exemple construire une chaîne de caractères en utilisant les guillemets simples : $$\mbox{\verb!a = 'toto'!}$$
 L'instance de la classe (ici dénotée par la variable \verb!a!) est appelée \textbf{objet} (d'où le nom du paradigme de programmation : \emph{Programmation Orientée Objets}).
 
 Les classes définissent non seulement des types de données spécifiques, mais aussi des \textbf{opérations} autorisées sur ces types. Par exemple, il est possible de passer le premier caractère d'une chaîne en majuscule au moyen de la fonction (on parle aussi de \textbf{méthode}) \verb!capitalize!, qui s'utilise comme suit :
 $$\mbox{\verb!print('toto'.capitalize())!}$$
 
-Une description (on parle aussi d'\textbf{API} ou interface de programmation d'application, \emph{Application Programming Interface} en anglais) des méthodes disponibles pour la classe \texttt{\textbf{str}} vous est fourni en annexe.
+Une description (on parle aussi d'\textbf{API} ou interface de programmation d'application, \emph{Application Programming Interface} en anglais) des méthodes disponibles pour (et dans!) la classe \texttt{\textbf{str}} vous est fournie en annexe.
 À partir de celle-ci, vous devez répondre aux questions ci-dessous.
 
+\exercice{Traitements sur un fichier CSV}
+
+Sachant qu'il est possible de charger le contenu d'un fichier CSV au moyen du code suivant : 
+\begin{verbatim}
+import csv
+with open(chemin_fichier, 'r') as f:  
+    contenu = csv.reader(f, delimiter=';')
+    for tableau_ligne in contenu :
+        pass # exemple d'instruction qui ne fait rien
+\end{verbatim}
+
+\begin{enumerate}
+\item Écrivez une fonction \verb!nbchar! prenant en entrée un chemin vers un fichier CSV et retournant un entier représentant le nombre de caractères du fichier CSV.
+
+Vous testerez votre fonction sur les fichiers CSV fournis au TP1 (TP bibliothèque).
+
+\item Écrivez une fonction \verb!suffixe! qui, à partir d'un chemin vers un fichier CSV, et une chaîne de caractère, retourne la liste des champs (cellules) du fichiers CSV contenant un mot avec le suffixe passé en paramètre.
+
+Vous testerez votre fonction sur les fichiers CSV fournis au TP1, avec le suffixe \texttt{'ion'}.
+\end{enumerate}
+
+\exercice{Traitements sur du texte}
+
+Dans cet exercice, nous allons travailler avec l'oeuvre "Les Trois Mousquetaires" d'Alexandre Dumas, dont le contenu (en UTF8) est disponible librement à l'adresse suivante :
+\begin{center}
+	\url{http://www.gutenberg.org/cache/epub/13951/pg13951.txt}
+\end{center}
+
+Il est possible de charger l'intégralité de l'oeuvre en mémoire au moyen des instructions python suivantes :\footnote{Dans cet exercice, nous ferons ainsi, mais il est conseillé de toujours se demander quel est le coût en espace d'un programme et de le comparer à la mémoire disponible.} 
+\begin{verbatim}
+with open('pg13951.txt', 'r') as f:
+    contenu = f.read()
+\end{verbatim}
+\begin{enumerate}
+\item Écrire une fonction \verb!nbmot! qui prend en entrée un chemin vers un fichier et un nombre de mot, et retourne le nombre d'occurence de ce mot dans le fichier.
+
+Testez votre fonction avec le mot \texttt{'Artagnan'} et le livre "Les Trois Mousquetaires".
+
+\item Écrivez une fonction \verb!present! qui prend en entrée un chemin vers un fichier, un mot, une position de début incluse et une position de fin excluse (en termes de caractères) et retourne un booléen indiquant si le mot est présent dans la portion de texte concernée.
+
+Testez votre fonction avec le mot \texttt{'Artagnan'} et les caractères 1000 à 2000 du livre "Les Trois Mousquetaires".
+
+\item Écrivez une fonction \verb!position! qui prend en entrée un chemin vers un fichier, un mot, une position de début incluse et une position de fin excluse (en termes de caractères) et retourne un booléen indiquant la position de la première apparition du mot dans la portion de texte concernée (et -1 si le mot n'y apparaît pas).
+
+Testez votre fonction avec le mot \texttt{'Artagnan'} et les caractères 5000 à 8000 du livre "Les Trois Mousquetaires".
+
+\item Écrivez une fonction \verb!lignes! qui prend en entrée un chemin vers un fichier et un mot clé, et retourne un tableau contenant toutes les lignes commençant par le mot clé.
+
+Testez votre fonction avec le mot \texttt{'CHAPITRE'} et le livre "Les Trois Mousquetaires".
+\end{enumerate}
+
+\exercice{Traitements sur un code python}
+
+\begin{enumerate}
+\item Écrivez une fonction \verb!detabifier! qui prend en entrée un chemin vers un fichier python et retourne une chaîne contenant le contenu du fichier python mais où toutes les tabulations auront été remplacées par 4 espaces.
+
+Vous testerez votre fonction sur votre programme python lui-même.
+
+\item Écrivez une fonction \verb!tabifier! qui prend en entrée un chemin vers un fichier python et retourne une chaîne contenant le contenu du fichier python mais où toutes les occurrences de 4 espaces auront été remplacées par une tabulation.
+
+Vous testerez votre fonction sur le résultat de la question précédente.
+\end{enumerate}
 
 \end{document}
 
