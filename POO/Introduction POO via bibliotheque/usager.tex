@@ -24,9 +24,13 @@
 
 \begin{document}
 
+\section{L'approche objet en programmation}
+
 En programmation, l'approche objet consiste à penser le système d'information, ou encore le modèle du monde, sous la forme d'un ensemble d'entités. Chaque entité a ses propres caractéristiques et ses propres fonctionnalités. Chaque entité est maîtresse de son évolution au cours du temps.
 
 Dans le TP Bibliothèque, vous avez manipulé trois types d'entités~: les usagers, les livres, et les emprunts.
+
+\section{Ma première classe}
 
 Prenons l'exemple des usagers. Chaque usager est défini par les mêmes informations (nom, prénom, date de naissance, liste des emprunts), mais chaque usager a ses propres valeurs pour ces informations. En  plus de ces caractéristiques, un usager est détenteur de plusieurs fonctionnalités comme "emprunter un livre".
 
@@ -44,7 +48,11 @@ class Usager:
 
 \end{verbatim}  
 
+\section{Les attributs d'un objet}
+
 Le code Python ci-dessus définit la classe \texttt{Usager}. Cette définition précise qu'un usager est constitué d'un nom (\texttt{nom}), d'un prénom (\texttt{prenom}), d'une date de naissance (\texttt{date\_naissance}) et de la liste de ses emprunts (\texttt{emprunts}). On appellera \textbf{attribut} chacune de ces caractéristiques. Donc, \texttt{nom}, \texttt{prenom}, \texttt{date\_naissance}, \texttt{emprunts} sont les attributs de la classe \texttt{Usager}.
+
+\section{Le constructeur, et les composants d'une classe}
 
 La classe \texttt{Usager} contient une méthode, qui s'appelle \texttt{\_\_init\_\_}. Cette méthode construit un objet de la classe. Tout classe doit contenir une telle méthode. Le terme \textbf{méthode} fait partie du vocabulaire de l'approche objet~:
 
@@ -56,13 +64,19 @@ La classe \texttt{Usager} contient une méthode, qui s'appelle \texttt{\_\_init\
 
 La méthode \texttt{\_\_init\_\_} prend en argument au moins \texttt{self}, qui fait référence à l'objet en cours de construction. Ici, la ligne \texttt{self.nom = nom} se lit~: "nom est un attribut de self, et sa valeur initiale est donnée par le contenu de nom, argument de \texttt{\_\_init\_\_}. Comme on le remarque avec la ligne \texttt{self.date\_naissance = naissance}, le nom de l'attribut et celui de l'argument donnant la valeur initiale ne doivent pas nécessairement être les mêmes, mais c'est mieux ainsi pour la lisibilité du code.
 
-Ici, nous n'avons que que définir \textbf{comment} construire un objet de la classe \texttt{Usager}. Reste encore à le construire. Voici le code permettant cela~:
+\section{Construire un objet}
+
+
+Ici, nous n'avons fait que définir \textbf{comment} construire un objet de la classe \texttt{Usager}. Reste encore à le construire. Voici le code permettant cela~:
 
 \begin{verbatim}
    u1 = Usager("Nonyme","Albert","17/09/2000")
 \end{verbatim} 
 
 \texttt{u1} est une variable. Pour construire un objet de la classe \texttt{Usager}, on utilise le nom de la classe comme une fonction en passant des valeurs en suivant la signature (liste des arguments) de la méthode \texttt{\_\_init\_\_}. Attention, en Python, cette dernière phrase est fausse. En effet, la méthode \texttt{\_\_init\_\_} de la classe \texttt{Usager} liste 4 arguments (\texttt{self}, \texttt{nom}, \texttt{prenom}, \texttt{naissance}), mais l'appel n'en donne que 3 (\texttt{nom}, \texttt{prenom}, \texttt{naissance}). En fait, le \texttt{self}, à l'appel du constructeur, est implicite~: au moment de la construction, il est ajouté, et fait référence à l'objet en cours de construction.
+
+
+\section{Manipuler un objet}
 
 Maintenant, l'objet \texttt{u1} est construit, et on peut l'utiliser~:
 
@@ -72,9 +86,87 @@ Maintenant, l'objet \texttt{u1} est construit, et on peut l'utiliser~:
    print(u1.nom)
    u1.emprunts.append("23")
    print(u1.emprunts)
+\end{verbatim}
+
+L'opérateur \texttt{.} permet d'accéder à un attribut de l'objet \texttt{u1}. Cet opérateur peut être "chainée"~; en effet, remarquez l'usage  \texttt{u1.emprunts.append("23")}~: le premier \texttt{.} permet d'accéder à la liste des emprunts de \texttt{u1}. Cette liste est un objet de type \texttt{List}, qui dispose d'une méthode \texttt{append}. Le deuxième \texttt{.} permet d'appliquer \texttt{apprend} à cette liste. 
+
+Finalement, le code total est le suivant~:
+
+
+\begin{verbatim}
+# coding utf-8
+
+class Usager:
+    def __init__(self,nom,prenom,naissance):
+        self.nom = nom
+        self.prenom = prenom
+        self.date_naissance = naissance
+        self.emprunts = []
+
+if __name__ == '__main__':
+    u1 = Usager("Nonyme","Albert","17/09/2000")
+    print(u1.nom)
+    u1.nom = "Toto"
+    print(u1.nom)
+    u1.emprunts.append("23")
+    print(u1.emprunts)
 \end{verbatim} 
 
-\paragraph{Exercice 1}~: Téléchargez dans le cours le fichier \texttt{usager.py}. \'Editez-le et ajoutez l'attribut \texttt{date\_renouvellement}, qui est une date qui définit quand l'abonnement de l'usager se termine. Mettez à jour le constructeur (ajout d'un nouvel argument) ainsi que l'appel dans le test au bas du fichier. Testez.
+
+\paragraph{Exercice 1}~: créez un fichier nommé \texttt{usager.tex}, et reprenez le code ci-dessus. Exécutez-le pour vérifier qu'on obtient le résultat attendu.
+
+
+\paragraph{Exercice 2}~: ajoutez à la classe \texttt{Usager} l'attribut \texttt{date\_renouvellement}, qui est une date qui définit quand l'abonnement de l'usager se termine. Mettez à jour le constructeur (ajout d'un nouvel argument) ainsi que l'appel dans le test au bas du fichier. Testez en affichant la nouvelle information.
+
+\section{Ajout de méthode}
+
+Pour le moment, la classe \texttt{Usager} ne contient qu'une seule méthode~: \texttt{\_\_init\_\_}. Nous allons maintenant ajouter une autre méthode~:
+
+\begin{verbatim}
+class Usager:
+    ...
+    
+    def age(self):
+        """ retour l'age de l'usager """
+        aujourdhui = datetime.now()
+        dn = datetime.strptime(self.date_naissance, '%d/%m/%Y')
+        retour = aujourdhui.year - dn.year
+        ## on enlève 1 an si la date actuelle est antérieure à
+        ## celle de l'anniversaire
+        if aujourdhui.month < dn.month:
+            retour -= 1
+        else:
+            if aujourdhui.month == dn.month and aujourdhui.day < dn.day:
+                retour -= 1
+        return retour
+\end{verbatim}
+
+La fonction \texttt{age} est définie au sein de la classe \texttt{Usager}, comme l'indentation devrait vous le faire comprendre. Cette fonction ne prend qu'un seul argument, \texttt{self}, nécessaire afin qu'on puisse se référer à l'usager sur laquelle la fonction s'applique. \texttt{dn} et \texttt{aujourdhui} sont des objets de type \texttt{date} qui disposent des attributs \texttt{year}, \texttt{month}, et \texttt{day}. On ne commente pas plus ici l'algorithme de calcul de l'âge. 
+
+A noter l'appel à la fonction \texttt{now} (\texttt{datetime.now()}), qui peut apporter de la confusion ici. En effet, en Python, l'opérateur \texttt{.} est aussi utilisé pour accéder à une fonction d'une librairie (ici, la librairie \texttt{datetime}).
+
+
+\paragraph{Exercice 3}~: ajoutez à la classe \texttt{Usager} une méthode nommée \texttt{renouvellement} qui renvoie \texttt{True} si la date de renouvellement de l'usager est dépassée, \texttt{False}, sinon.
+
+Une fonction peut bien sûr modifier les valeurs des attributs de l'objet sur lequel elle s'applique. Par exemple, voici la méthode \texttt{renouveler}, qui renouvelle l'abonnement de l'usager. La date du prochain renouvellement est repoussée à un an à partir de celle du renouvellement~: 
+
+\begin{verbatim}
+class Usager:
+    ## blabla
+    
+    def renouveller(self):
+        """ place la date de renouvellement à aujourd'hui + 1 an """
+        aujourdhui = datetime.now()
+        self.date_renouvellement = str(aujourdhui.day) +"/" + str(aujourdhui.month) + "/" + str(aujourdhui.year + 1)
+\end{verbatim}
+
+\paragraph{Exercice 4}~: ajoutez à votre classe cette méthode, testez-la en affichant la date de renouvellement avant et après  l'application de \texttt{renouveller}.
+
+\paragraph{Exercice 5}~: en réfléchissant, on se dit qu'il aurait été mieux de fixer la date de renouvellement à aujourd'hui + 1 an dès la création de l'objet. Mettez à jour \texttt{init} pour ce faire. Mettez aussi à jour la partie test.
+
+Jusqu'à maintenant, dans nos exemples, une méthode ne prend qu'un seul argument, nécessaire~: \texttt{self}. Mais, on peut bien sûr créer des méthodes avec plus d'arguments.
+
+  
 
 
 \end{document}
