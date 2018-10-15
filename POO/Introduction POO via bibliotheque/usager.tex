@@ -169,7 +169,46 @@ class Usager:
 
 \paragraph{Exercice 5}~: en réfléchissant, on se dit qu'il aurait été mieux de fixer la date de renouvellement à aujourd'hui + 1 an dès la création de l'objet. Mettez à jour \texttt{init} pour ce faire. Mettez aussi à jour la partie test.
 
-Jusqu'à maintenant, dans nos exemples, une méthode ne prend qu'un seul argument, nécessaire~: \texttt{self}. Mais, on peut bien sûr créer des méthodes avec plus d'arguments.
+Jusqu'à maintenant, dans nos exemples, une méthode ne prend qu'un seul argument, nécessaire~: \texttt{self}. Mais, on peut bien sûr créer des méthodes avec plus d'arguments. Par exemple, dans le TP numéro 1, un usager pouvait changer de nom. Reproduisons cette possibilité en ajoutant la méthode \texttt{changer\_nom} à la classe \texttt{Usager}~:
+
+\begin{verbatim}
+class Usager:
+    ## blabla
+
+    def changer_nom(self,nvnom):
+        self.nom = nvnom
+\end{verbatim}
+
+Et on peut utiliser la nouvelle méthode~:
+
+\begin{verbatim}
+   u1.changer_nom("Dupont")
+\end{verbatim}
+
+Remarquez bien que la définition liste 2 argument, mais que l'appel n'en fournit qu'un~: encore une fois, le \texttt{self} est automatiquement lié à \texttt{u1} au moment de l'appel à \texttt{changer\_nom}.
+
+Mais, pourquoi avoir utilisé une méthode pour changer le nom d'un usager~? Après, tout, autant opérer directement l'affectation que d'appeler la méthode. Certes, mais passer par une méthode de l'objet qui se charge de l'affectation a un avantage~: l'objet maîtrise les conditions de ses modifications. Imaginons que un usager est un attribut \texttt{ancien\_nom}. Alors, la modification de \texttt{nom} devrait impliquer automatiquement la modification de \texttt{ancien\_nom} afin de maintenir la cohérence de l'usager. Faire directement un \texttt{u1.nom = "Dupont"} n'assure pas ce maintient, car on intervient sur l'objet sans qu'il puisse maîtriser cette modification. Dans l'idéal, pour chaque attribut, il faudrait créer une méthode de lecture (on parler de \textbf{getter}) et une méthode de modification (on parle de \textbf{setter}). Mais cela est laborieux, et on ne le fait pas systématiquement. Notez que des environnements de programmation évolués génèrent automatiquement les getter et les setter quand on crée un attribut.
+
+\paragraph{Exercice 6}~: Créez une méthode qui ajoute un emprunt à la liste des emprunts d'un usager. Un emprunt est donné par une variable. Inutile de déterminer ce qui se cache derrière cette variable, nous allons voir qu'il s'agira en fait aussi d'un objet.
+
+\section{L'ensemble des usagers}
+
+On pourrait continuer à modéliser l'ensemble des usagers sous la forme d'un dictionnaire. Mais il s'agirait alors d'un dictionnaire d'instances de la classe \texttt{Usager}~:
+
+\begin{verbatim}
+   usagers = {}
+   usagers["1"] = Usager("Nonyme","Albert","17/09/2000")
+   usagers["2"] = Usager("Mini","Cathy","12/12/1995")
+\end{verbatim}
+
+Mais nous allons plutôt définir une classe \texttt{Usagers}, qui contiendra le dictionnaire.
+
+\paragraph{Exercice 7}~: Créez la classe \texttt{Usagers} dans un fichier \texttt{usagers.py}. Cette classe contient un attribut nommé \texttt{ensemble} (le dictionnaire des usagers). La constructeur prend en argument une chaine de caractères qui est le nom du fichier csv contenant la liste des usagers. reprenez la fonction \texttt{charger\_usagers}, adaptez-la, pour créer le constructeur.
+
+\paragraph{Exercice 8}~: créez une méthode \texttt{changer\_nom\_usager} qui prend en argument un identifiant d'usager, et qui modifie le nom de l'usager correspondant. Il faut donc recherche l'usager dans la dictionnaire, et appliquer la méthode \texttt{changer\_nom} sur cet usager. 
+
+\paragraph{Exercice 9}~:  de même, adaptez les fonctions \texttt{ajouter\_mot\_cle}, \texttt{lister\_usagers\_majeurs} en ajoutant des méthodes à la classe \texttt{Usagers}. Il vous faudra sans doute ajouter la méthode \texttt{majeur} à la classe \texttt{Usager}
+
 
   
 
