@@ -28,7 +28,9 @@ class Usager:
     def renouveller(self):
         aujourdhui = datetime.now()
         self.date_renouvellement = str(aujourdhui.day) +"/" + str(aujourdhui.month) + "/" + str(aujourdhui.year + 1)
-        
+
+    def changer_nom(self,nvnom):
+        self.nom = nbnom
 
 if __name__ == '__main__':
     u1 = Usager("Nonyme","Albert","17/09/2000","11/12/2018")
