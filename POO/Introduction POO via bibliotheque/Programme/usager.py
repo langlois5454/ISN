@@ -48,7 +48,14 @@ class Usager:
     def ajouter_emprunt(self,emp):
         self.emprunts.append(emp)
 
-    
+    def majeur(self):
+        dn = datetime.strptime(self.date_naissance, '%d/%m/%Y')
+        date_majeur = datetime(dn.year+18,dn.month,dn.day)
+        aujourdhui = datetime.now()
+        duree = aujourdhui-date_majeur
+        return duree.days >= 0       
+
+
 
 if __name__ == '__main__':
     u1 = Usager("Nonyme","Albert","17/09/2000")

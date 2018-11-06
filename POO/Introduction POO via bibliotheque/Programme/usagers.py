@@ -1,6 +1,7 @@
 # coding utf-8
 
 import csv
+import usager
 
 class Usagers:
   def __init__(self,nom_fichier):
@@ -12,7 +13,7 @@ class Usagers:
         nom            = ligne[1]
         prenom         = ligne[2]
         date_naissance = ligne[3]        
-        self.usagers[iduser] = Usager.Usager(nom,prenom,date_naissance)
+        self.usagers[iduser] = usager.Usager(nom,prenom,date_naissance)
         ## les emprunts ne sont pas intégrés
         ## une fois qu'on connaîtra les emprunts, il faudra relire
         ## le fichier afin d'ajouter les emprunts
@@ -23,6 +24,16 @@ class Usagers:
   def changer_nom_usager(self,idus,nvnom):
     self.usagers[idus].changer_nom(nvnom)
 
+  def lister_usagers_majeurs(self):
+    return [v for u,v in self.usagers.items() if v.majeur()]
 
+
+
+if __name__ == '__main__':
+  les_usagers = Usagers("usagers.csv")
+  print(les_usagers.usagers["user1"].nom)
+  lmaj = les_usagers.lister_usagers_majeurs()
+  for x in lmaj:
+    print(x.nom)
 
   
