@@ -4,11 +4,13 @@ from datetime import datetime
 
 
 class Usager:
-    def __init__(self,nom,prenom,naissance,dn):
+    def __init__(self,nom,prenom,naissance):
         self.nom = nom
         self.prenom = prenom
         self.date_naissance = naissance
-        self.date_renouvellement = dn
+        aujourdhui = datetime.now()
+        self.date_renouvellement = "{}/{}/{}".format(aujourdhui.day,aujourdhui.month,aujourdhui.year)
+        self.renouveller()
         self.emprunts = []
 
     def age(self):
@@ -25,15 +27,31 @@ class Usager:
                 retour -= 1
         return retour
 
-    def renouveller(self):
+    def renouvellement(self):
         aujourdhui = datetime.now()
-        self.date_renouvellement = str(aujourdhui.day) +"/" + str(aujourdhui.month) + "/" + str(aujourdhui.year + 1)
+        d = datetime.strptime(self.date_renouvellement, '%d/%m/%Y')
+        if aujourdhui > d:
+            return True
+        else:
+            return False
+
+    def renouveller(self):
+        """ décale la date de renouvellement d'un an """
+        dr = self.date_renouvellement
+        annee = int(dr[-4:])
+        jour_mois = dr[:-4]
+        self.date_renouvellement = jour_mois + str(annee + 1)
 
     def changer_nom(self,nvnom):
-        self.nom = nbnom
+        self.nom = nvnom
+
+    def ajouter_emprunt(self,emp):
+        self.emprunts.append(emp)
+
+    
 
 if __name__ == '__main__':
-    u1 = Usager("Nonyme","Albert","17/09/2000","11/12/2018")
+    u1 = Usager("Nonyme","Albert","17/09/2000")
     print(u1.nom)
     u1.nom = "Toto"
     print(u1.nom)
