@@ -59,7 +59,11 @@ class Usager:
 
 if __name__ == '__main__':
     u1 = Usager("Nonyme","Albert","17/09/2000")
+    u2 = Usager("Dupont","Christophe","13/01/1956")
+    print(u1.age())
+    print(u2.age())
     print(u1.nom)
+    print(u1.date_renouvellement)
     u1.nom = "Toto"
     print(u1.nom)
     u1.emprunts.append("23")
