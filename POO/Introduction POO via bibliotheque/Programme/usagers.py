@@ -25,7 +25,7 @@ class Usagers:
     self.usagers[idus].changer_nom(nvnom)
 
   def lister_usagers_majeurs(self):
-    return [v for u,v in self.usagers.items() if v.majeur()]
+    return [us for idus,us in self.usagers.items() if us.majeur()]
 
 
 
