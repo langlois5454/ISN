@@ -1,3 +1,5 @@
+import math
+
 class Point:
     '''Classe Point permettant de manipuler un point 2D'''
     def __init__(self,x,y):
@@ -9,6 +11,9 @@ class Point:
     
     def copie(self):
         return Point(self.x,self.y)
+
+    def distance(self,p):
+        return math.sqrt((self.x-p.x)**2+(self.y-p.y)**2)
     
     def symetrique_origine(self):
         '''Point.symetrique_origine() --> Point -- renvoie le symétrique d'un Point par rapport à l'origine '''

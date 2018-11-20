@@ -19,6 +19,7 @@ class Interface:
   def menu_principal(self):
     ordre = None
     print("")
+
     print("==== MENU PRINCIPAL ====")
     print("1. Creer point")
     print("2. Bouger point")
